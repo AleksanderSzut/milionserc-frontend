@@ -21,7 +21,6 @@ export default {
 
 body {
   margin: 0;
-  background-color: black;
   height: 200vh;
 }
 
