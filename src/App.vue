@@ -1,10 +1,14 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
+  <main-header></main-header>
   <router-view />
 </template>
+
+<script>
+import MainHeader from "@/components/layout/mainHeader";
+export default {
+  components: { MainHeader }
+};
+</script>
 
 <style lang="scss">
 #app {
@@ -13,6 +17,12 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+body {
+  margin: 0;
+  background-color: black;
+  height: 200vh;
 }
 
 #nav {
