@@ -113,6 +113,12 @@ img {
   display: grid;
 }
 .home-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
   h2,
   h4 {
     font-family: "Gelasio", sans-serif;
@@ -141,6 +147,7 @@ img {
   .row {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     .text-col {
       max-width: 550px;
     }
@@ -151,9 +158,6 @@ img {
 }
 .home-section--book {
   .quotes-image-row {
-    display: flex;
-    flex-wrap: wrap;
-
     &__figure {
       position: relative;
     }
