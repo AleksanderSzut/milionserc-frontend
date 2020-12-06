@@ -86,12 +86,32 @@
       <p>
         Chcemy dać ci możliwość wyrażenia swoich uczuć w sposób nietypowy, na
         długo zapadający w pamięć osoby, którą darzysz uczuciem lub chcesz
-        potraktować w wyjątkowy sposób
+        potraktować w wyjątkowy sposób.
       </p>
     </section>
-    <section></section>
-    <section></section>
-    <section></section>
+    <section
+      class="home-section home-section--self-promo home-section--no-line"
+    >
+      <h4>Wyraź swoje uczucia inaczej niż wszyscy!</h4>
+      <p class="home-section--self-promo__text">
+        Umieść jużdziś swój wpis w &bdquo; Księdze Miliona Serc &rdquo; i
+        obdaruj świadectwem pamięci osobę dla Ciebie tak ważną i wyjątkową.
+      </p>
+      <p class="home-section--self-promo__bold">
+        <b
+          >Wyraź to, co czujesz inaczej niż wszyscy - niech Twoje uczucia
+          zostaną uwiecznione na zawsze</b
+        >
+      </p>
+      <router-link to="dodaj-wpis" class="home-section--self-promo__button"
+        >Dodaj bezpłatny wpis</router-link
+      >
+      <img src="@/assets/images/1_3.jpg" alt="zaświadczenie wiz" />
+    </section>
+    <!--    <section class="home-section home-section&#45;&#45;posts">-->
+    <!--      <h4>Wybrane wpisy księgi miliona serc</h4>-->
+    <!--    </section>-->
+    <!--    <section></section>-->
   </main>
 </template>
 
@@ -105,7 +125,9 @@ export default {
 
 <style lang="scss">
 @import "../styles/_variables";
+@import "../styles/_mixins";
 @import "../styles/components/linedList";
+
 img {
   max-width: 100%;
 }
@@ -128,8 +150,7 @@ img {
   b {
     font-weight: 500;
   }
-  &:not(:first-child) {
-    margin: 40px auto 0 auto;
+  &:not(:first-child):not(&--no-line) {
     &:after {
       content: "";
       display: block;
@@ -139,27 +160,53 @@ img {
       background-color: $darkGray;
     }
   }
+  &:not(:first-child) {
+    @include wrapper;
+    margin: 40px auto 0 auto;
+  }
 }
 .home-section--reasons {
   .lined-list {
     margin-bottom: 32px;
   }
   .row {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    max-width: 100%;
     justify-content: center;
-    .text-col {
-      max-width: 550px;
+    flex-direction: column;
+    column-gap: 24px;
+    row-gap: 24px;
+    @media (min-width: $breakpoint-md) {
+      grid-template-columns: 2fr 1fr;
+      text-align: left;
     }
     img {
-      max-width: 400px;
+      min-width: 300px;
+      max-width: 100%;
     }
   }
 }
 .home-section--book {
+  h2 {
+    margin-top: 0.3em;
+  }
+  h4 {
+    font-size: 1.5em;
+    margin-bottom: 0;
+    margin-top: 40px;
+  }
   .quotes-image-row {
+    display: grid;
+    column-gap: 12px;
+    row-gap: 20px;
+
+    @media (min-width: $breakpoint-md) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
     &__figure {
       position: relative;
+      margin: 0 0;
     }
     &__figcaption {
       background-color: white;
@@ -196,9 +243,61 @@ img {
   }
   position: relative;
   h3 {
+    @include wrapper;
     max-width: 90%;
     line-height: 180%;
+    letter-spacing: 3px;
+    @media (min-width: $breakpoint-sm) {
+      font-size: 1.5em;
+    }
     font-weight: 300;
+  }
+}
+
+.home-section--self-promo {
+  border: 10px solid $lightGray;
+  padding: 30px;
+  display: grid;
+  justify-items: flex-start;
+  text-align: left;
+  grid-template-areas: "header" "text" "bold" "button" "image";
+  @media (min-width: $breakpoint-md) {
+    grid-template-columns: auto minmax(200px, 530px);
+    grid-template-areas: "header header" "text image" "bold image" "button image";
+  }
+  h4 {
+    grid-area: header;
+    margin-top: 12px;
+    font-size: 1.5em;
+    text-align: left;
+  }
+  p {
+    margin: 6px 0;
+  }
+  &__text {
+    grid-area: text;
+  }
+  &__bold {
+    grid-area: bold;
+  }
+  &__button {
+    grid-area: button;
+    color: $colorGold;
+    padding: 8px 12px;
+    text-transform: uppercase;
+    border: 3px solid $colorGold;
+    font-family: "Gelasio", sans-serif;
+    font-size: 18px;
+    text-align: center;
+  }
+  img {
+    grid-area: image;
+    max-width: 450px;
+    margin: 20px auto 0 auto;
+    @media (min-width: $breakpoint-md) {
+      margin: 0;
+    }
+    width: 100%;
   }
 }
 </style>

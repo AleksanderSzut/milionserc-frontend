@@ -1,12 +1,14 @@
 <template>
-  <main-header></main-header>
+  <main-header />
   <router-view />
+  <main-footer />
 </template>
 
 <script>
 import MainHeader from "@/components/layout/MainHeader";
+import MainFooter from "@/components/layout/MainFooter";
 export default {
-  components: { MainHeader }
+  components: { MainFooter, MainHeader }
 };
 </script>
 
