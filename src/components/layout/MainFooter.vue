@@ -38,24 +38,36 @@ export default {
   line-height: 50px;
   &__nav {
     @include wrapper();
-    height: 50px;
     margin: 0 auto;
     border-bottom: 1px solid $colorGold;
+    white-space: nowrap;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    line-height: 30px;
+    padding: 12px 0;
+    @media (min-width: $breakpoint-sm) {
+      line-height: 50px;
+      flex-direction: row;
+    }
     &__item {
+      display: block;
       padding: 0 8px;
       position: relative;
-      &:not(:last-child) {
-        &:after {
-          content: "";
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          right: -1px;
-          height: 14px;
-          width: 1px;
-          background-color: white;
-          display: block;
-          margin: 0 8px;
+      @media (min-width: $breakpoint-sm) {
+        &:not(:last-child) {
+          &:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: -9px;
+            height: 14px;
+            width: 1px;
+            background-color: white;
+            display: block;
+            margin: 0 8px;
+          }
         }
       }
     }
