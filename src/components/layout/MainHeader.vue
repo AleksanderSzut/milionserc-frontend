@@ -82,6 +82,7 @@ a {
 
 .main-header {
   $this: &;
+  z-index: 100;
 
   height: 80px;
   background-color: black;

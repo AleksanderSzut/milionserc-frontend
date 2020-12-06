@@ -4,6 +4,10 @@ $lightGray: #ebebeb;
 $mediumGray: #cfcfcf;
 $darkGray: #868686;
 
+//gradients
+
+$goldenGradient: linear-gradient(90deg, rgba(194,136,49,1) 0%, rgba(230,179,54,1) 10%, rgba(246,209,83,1) 20%, rgba(249,235,153,1) 30%, rgba(230,179,54,1) 40%, rgba(169,118,34,1) 50%, rgba(230,179,54,1) 60%, rgba(246,209,83,1) 70%, rgba(249,235,153,1) 80%, rgba(230,179,54,1) 90%, rgba(169,118,34,1) 100%);
+
 //breakpoints
 $breakpoint-xs: 0px;
 $breakpoint-sm: 576px;
