@@ -34,9 +34,9 @@
             </b>
           </p>
         </div>
-        <figure class="img-col">
+        <div class="img-col">
           <img src="@/assets/images/1_1.jpg" />
-        </figure>
+        </div>
       </div>
     </section>
     <section class="home-section home-section--book">
