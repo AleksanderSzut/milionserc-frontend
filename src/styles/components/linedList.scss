@@ -1,0 +1,33 @@
+@import '../_variables';
+
+.lined-list
+{
+  padding: 0;
+  li
+  {
+    list-style: none;
+    text-align: left;
+    display: flex;
+    padding-left: 62px;
+    position: relative;
+    &:not(:first-child)
+    {
+      margin-top: 24px;
+    }
+    line-height: 18px;
+
+    &::before
+    {
+      content: '';
+      top: 8px;
+      left: 0;
+      position: absolute;
+      margin-right: 12px;
+      display: inline-block;
+      height: 2px;
+      width: 50px;
+      background-color: $darkGray ;
+    }
+
+  }
+}
