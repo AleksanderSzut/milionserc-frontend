@@ -3,34 +3,35 @@
     class="main-header"
     :class="{ header__container__scrolled: isScrolled }"
   >
-    <router-link to="/" @click="closeNav()" tag="a" class="main-header__logo">
+    <router-link to="/" tag="a" class="main-header__logo">
       <img
         alt="Milionserc"
         src="../../assets/logo.svg"
         class="main-header__logo"
-    /></router-link>
+      />
+    </router-link>
     <div class="main-header__nav" :class="{ isOpen: isOpen }">
       <div
         class="main-header__burger-button"
-        @click="closeNav()"
+        @click="toggleNav()"
         :class="{ isOpen: isOpen }"
       ></div>
       <nav class="main-header__nav-links">
-        <router-link to="/" @click="closeNav()" tag="a"
-          >Strona główna</router-link
-        >
-        <router-link to="/jak-to-dziala" @click="closeNav()" tag="a"
-          >Jak to działa?</router-link
-        >
-        <router-link to="/pakiety" @click="closeNav()" tag="a"
-          >Księga miliona serc</router-link
-        >
-        <router-link to="/ksiega" @click="closeNav()" tag="a"
-          >Dołącz do nas</router-link
-        >
-        <router-link to="/kontakt" @click="closeNav()" tag="a"
-          >Kontakt</router-link
-        >
+        <router-link to="/" tag="a">
+          <span @click="closeNav()"> Strona główna</span>
+        </router-link>
+        <router-link to="jak-to-dziala" tag="a">
+          <span @click="closeNav()"> Jak to działa?</span>
+        </router-link>
+        <router-link to="/pakiety" tag="a">
+          <span @click="closeNav()"> Księga miliona serc</span>
+        </router-link>
+        <router-link to="/ksiega" tag="a">
+          <span @click="closeNav()"> Dołącz do nas</span>
+        </router-link>
+        <router-link to="/kontakt" tag="a">
+          <span @click="closeNav()"> Kontakt</span>
+        </router-link>
         <a href="https://fb.com/" class="main-header__icons">
           <img src="../../assets/icons/001-facebook.svg" />
         </a>
@@ -61,8 +62,11 @@ export default {
     handleScroll() {
       this.isScrolled = window.scrollY > 0;
     },
-    closeNav() {
+    toggleNav() {
       this.isOpen = !this.isOpen;
+    },
+    closeNav() {
+      this.isOpen = false;
     }
   }
 };
