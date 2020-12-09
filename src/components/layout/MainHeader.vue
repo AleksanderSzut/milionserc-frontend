@@ -33,10 +33,10 @@
           <span @click="closeNav()"> Kontakt</span>
         </router-link>
         <a href="https://fb.com/" class="main-header__icons">
-          <img src="../../assets/icons/001-facebook.svg" />
+          <img src="../../assets/icons/logos/001-facebook.svg" />
         </a>
         <a href="https://yt.com" class="main-header__icons">
-          <img src="../../assets/icons/002-youtube.svg" />
+          <img src="../../assets/icons/logos/002-youtube.svg" />
         </a>
       </nav>
     </div>
