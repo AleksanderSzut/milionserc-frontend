@@ -104,7 +104,9 @@
         >
       </p>
       <router-link to="dodaj-wpis" class="home-section--self-promo__button"
-        >Dodaj bezpłatny wpis</router-link
+        >
+        <golden-button>Dodaj bezpłatny wpis</golden-button>
+      </router-link
       >
       <img src="@/assets/images/1_3.jpg" alt="zaświadczenie wiz" />
     </section>
@@ -117,15 +119,16 @@
 
 <script>
 import SimpleParallax from "@/components/effects/Parallax";
+import GoldenButton from "@/components/layout/GoldenButton";
 export default {
   name: "Home",
-  components: { SimpleParallax }
+  components: { GoldenButton, SimpleParallax }
 };
 </script>
 
 <style lang="scss">
-@import "../styles/_variables";
-@import "../styles/_mixins";
+@import "../styles/__variables";
+@import "../styles/__mixins";
 @import "../styles/components/linedList";
 
 img {
@@ -144,8 +147,8 @@ img {
   h2,
   h4 {
     font-family: "Gelasio", sans-serif;
-    font-weight: 400;
     text-transform: uppercase;
+    font-weight: 600;
   }
   b {
     font-weight: 600;
@@ -279,16 +282,6 @@ img {
   }
   &__bold {
     grid-area: bold;
-  }
-  &__button {
-    grid-area: button;
-    color: $colorGold;
-    padding: 8px 12px;
-    text-transform: uppercase;
-    border: 3px solid $colorGold;
-    font-family: "Gelasio", sans-serif;
-    font-size: 18px;
-    text-align: center;
   }
   img {
     grid-area: image;
