@@ -308,7 +308,7 @@ img {
         margin: 24px 0;
 
         @media (min-width: $breakpoint-md) {
-          margin: none;
+          margin: 0;
         }
       }
       &__logo {
