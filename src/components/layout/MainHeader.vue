@@ -23,7 +23,7 @@
         <router-link to="jak-to-dziala" tag="a">
           <span @click="closeNav()"> Jak to działa?</span>
         </router-link>
-        <router-link to="/pakiety" tag="a">
+        <router-link to="/ksiega-miliona-serc" tag="a">
           <span @click="closeNav()"> Księga miliona serc</span>
         </router-link>
         <router-link to="/ksiega" tag="a">
