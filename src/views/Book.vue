@@ -45,12 +45,20 @@
         </div>
       </div>
     </section>
+    <section
+      class="main-section main-section--no-line main-section--confessions"
+    >
+      <h3>Wpisy dodane do księgi miliona serc</h3>
+      <ConfessionsGrid />
+    </section>
   </main>
 </template>
 
 <script>
+import ConfessionsGrid from "@/components/layout/ConfessionsGrid";
 export default {
-  name: "Book"
+  name: "Book",
+  components: { ConfessionsGrid }
 };
 </script>
 
@@ -100,6 +108,10 @@ img {
   }
   width: 100%;
   box-sizing: border-box;
+
+  &--confessions {
+    width: 100%;
+  }
 
   &--book {
     &__info {
