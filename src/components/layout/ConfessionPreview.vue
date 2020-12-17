@@ -1,0 +1,170 @@
+<template>
+  <section class="confession-preview" :class="{ 'is-visible': isVisible }">
+    <h4 class="confession-preview__header">{{ header }}</h4>
+    <article class="confession-preview__content">
+      <p>{{ description }}</p>
+      <p>{{ name }}</p>
+    </article>
+    <nav class="confession-preview__nav">
+      <div class="confession-preview__nav__item">
+        <img src="@/assets/icons/back.svg" class="first" />
+        Poprzedni
+      </div>
+      <div class="confession-preview__nav__item">
+        Następny <img src="@/assets/icons/next.svg" class="second" />
+      </div>
+    </nav>
+    <div
+      class="confession-preview__close"
+      @click="toggleConfessionPreview"
+    ></div>
+    <ImgSlider class="confession-preview__slider" :images-url="imagesUrl" />
+  </section>
+</template>
+
+<script>
+import ImgSlider from "@/components/layout/ImgSlider";
+export default {
+  name: "ConfessionPreview",
+  components: { ImgSlider },
+  data() {
+    return {
+      isVisible: false
+    };
+  },
+  props: {
+    header: { type: String, default: "" },
+    description: { type: String, default: "" },
+    name: { type: String, default: "" },
+    imagesUrl: {
+      type: Array,
+      function() {
+        return [];
+      }
+    }
+  },
+  methods: {
+    toggleConfessionPreview() {
+      this.isVisible = !this.isVisible;
+    }
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+@import "@/styles/__variables";
+
+.confession-preview {
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 100%;
+  text-align: left;
+  display: grid;
+  max-height: 0;
+  transition: max-height 0.6s ease-in-out, padding 0.6s ease-in-out,
+    border 0.35s ease-in-out;
+  &.is-visible {
+    max-height: 1000px;
+    padding: 32px 24px;
+    border: 1px solid black;
+  }
+  grid-column-gap: 24px;
+  grid-template-areas:
+    "header close"
+    "content content"
+    "slider slider"
+    "nav nav";
+  grid-template-columns: 1fr 40px;
+  grid-template-rows: auto auto auto 50px;
+
+  @media (min-width: $breakpoint-md) {
+    grid-template-areas:
+      "header close"
+      "content slider"
+      "nav slider";
+    grid-template-columns: 4fr 3fr;
+    grid-template-rows: min-content auto 50px;
+  }
+  &__content {
+    grid-area: content;
+    max-width: 40ch;
+    margin-top: 0;
+    p {
+      margin-top: 0;
+    }
+  }
+  &__header {
+    text-transform: uppercase;
+    max-width: 40ch;
+    font-family: "Gelasio", sans-serif;
+    font-weight: 400;
+    font-size: 1.5em;
+    margin-top: 0;
+    grid-area: header;
+  }
+  &__nav {
+    grid-area: nav;
+    display: flex;
+    justify-content: space-between;
+    &__item {
+      text-transform: uppercase;
+      display: flex;
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 16px;
+      align-items: center;
+      img {
+        height: 1.3em;
+        filter: invert(100%);
+        &.first {
+          margin-right: 10px;
+        }
+        &.second {
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+  &__slider {
+    grid-area: slider;
+    width: 100%;
+    min-width: 300px;
+  }
+  &__close {
+    width: 30px;
+    justify-self: flex-end;
+    grid-area: close;
+    height: 30px;
+    border: 2px solid $colorGold;
+    position: relative;
+    transition: background-color ease 0.5s;
+    cursor: pointer;
+    &::after,
+    &::before {
+      content: "";
+      display: block;
+      background-color: $colorGold;
+      width: 80%;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      height: 2px;
+      transform-origin: center;
+      transition: background-color ease 0.5s;
+    }
+    &:hover {
+      background-color: $colorGold;
+      &:after,
+      &:before {
+        background-color: white;
+      }
+    }
+    &::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+    &::before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+  }
+}
+</style>

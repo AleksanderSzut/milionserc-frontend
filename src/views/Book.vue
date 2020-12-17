@@ -49,6 +49,18 @@
       class="main-section main-section--no-line main-section--confessions"
     >
       <h3>Wpisy dodane do księgi miliona serc</h3>
+      <button @click="toggleConfessionsPreview">
+        click
+      </button>
+      <ConfessionPreview
+        class="main-section--confessions__preview"
+        v-if="preview.active"
+        ref="confessionsPreview"
+        :name="preview.name"
+        :header="preview.header"
+        :images-url="preview.imagesUrl"
+        :description="preview.description"
+      />
       <ConfessionsGrid />
     </section>
   </main>
@@ -56,9 +68,29 @@
 
 <script>
 import ConfessionsGrid from "@/components/layout/ConfessionsGrid";
+import ConfessionPreview from "@/components/layout/ConfessionPreview";
 export default {
   name: "Book",
-  components: { ConfessionsGrid }
+  components: { ConfessionPreview, ConfessionsGrid },
+  data() {
+    return {
+      preview: {
+        active: true,
+        header: "Wyznanie miłości",
+        description:
+          "Arek jesteś moim spełnieniem marzeń, najlepszym przyjacielem i osobą, na którą zawsze mogę liczyć, Kocham Cię!",
+        imagesUrl: [
+          "https://images.pexels.com/photos/3693039/pexels-photo-3693039.jpeg?cs=srgb&dl=pexels-cottonbro-3693039.jpg&fm=jpg",
+          "https://images.pexels.com/photos/3875200/pexels-photo-3875200.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-3875200.jpg&fm=jpg"
+        ]
+      }
+    };
+  },
+  methods: {
+    toggleConfessionsPreview() {
+      this.$refs.confessionsPreview.toggleConfessionPreview();
+    }
+  }
 };
 </script>
 
