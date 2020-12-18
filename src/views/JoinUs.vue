@@ -33,56 +33,103 @@
         </div>
       </div>
     </section>
-    <section class="main-section main-section--chose-packages">
+    <section
+      class="main-section main-section--no-line main-section--chose-packages"
+    >
       <h3>
         Wybierz jeden z dostępnych pakietów i wyraź swoje uczucia inaczej niż
         wszyscy.
       </h3>
       <div class="main-section--chose-packages__wrapper">
         <Package
-          header="Pakiet serduszko"
-          :content="[
-            'Wpis wyrażający uczucia w Księdze Miliona Serc',
-            'Imienny certyfikat',
-            'Wpis w formie kartki wydrukowanej oraz online'
-          ]"
-          price="0"
-          additional-price-info="+ koszty wysyłki: 9,97 PLN"
+          v-for="(value, key) in packages"
+          :key="key"
+          :id="value.id"
+          @add-to-basket="addToBasket"
+          @clear-basket="clearItemFromBasket"
+          :header="value.header"
+          :content="value.content"
+          :price="value.price"
+          :real-price="value.realPrice"
         />
-        <Package
-          header="Pakiet wielkie serce"
-          :content="[
-            'Wpis wyrażający uczucia w Księdze Miliona Serc',
-            'Imienny certyfikat',
-            'Wpis w formie kartki wydrukowanej oraz online',
-            'Srebrny naszyjnik z zawieszką'
-          ]"
-          price="0"
-          additional-price-info="+ koszty wysyłki: 0,00 PLN"
-        />
-        <Package
-          header="Pakiet złote serce"
-          :content="[
-            'Wpis wyrażający uczucia w Księdze Miliona Serc',
-            'Imienny certyfikat',
-            'Wpis w formie kartki wydrukowanej oraz online',
-            'Pakiet biżuterii dla kobiet lub mężczyzn'
-          ]"
-          price="0"
-          additional-price-info="+ koszty wysyłki: 9,97"
-        />
-        <Package
-          header="Pakiet vip"
-          :content="[
-            'Wpis wyrażający uczucia w Księdze Miliona Serc',
-            'Imienny certyfikat',
-            'Wpis w formie kartki wydrukowanej oraz online',
-            'Pakiet biżuterii dla kobiet lub mężczyzn',
-            'Wizyta niezwykłego 3m Misia Pandy'
-          ]"
-          price="5500"
-          additional-price-info="brak dodatkowych kosztów"
-        />
+      </div>
+    </section>
+    <section class="main-section main-section--no-line main-section--summary">
+      <div class="main-section--summary__wrapper summary">
+        <h4>Koszyk</h4>
+        <div class="summary__basket">
+          <header class="summary__basket__header">
+            <h5>Produkty</h5>
+          </header>
+          <div class="summary__basket__table">
+            <div
+              v-for="(value, key) in basket"
+              :key="key"
+              class="summary__basket__table__item"
+            >
+              <div class="summary__basket__table__item__info">
+                <div
+                  class="summary__basket__table__item__close"
+                  @click="clearItemFromBasket(value.id)"
+                ></div>
+                <h5 class="summary__basket__table__item__name">
+                  {{ packages[value.id].header }}
+                </h5>
+                <div class="summary__basket__table__item__price">
+                  {{ packages[value.id].realPrice }}&nbsp;PLN
+                </div>
+                <div class="summary__basket__table__item__count">
+                  <input type="number" min="0" v-model="value.count" />
+                </div>
+                <div class="summary__basket__table__item__total">
+                  {{
+                    parseFloat(
+                      (packages[value.id].realPrice * value.count).toFixed(2)
+                    )
+                  }}&nbsp;PLN
+                </div>
+              </div>
+              <div class="summary__basket__table__item__additional">
+                <h6>Opcje dodatkowe</h6>
+                <label>
+                  <input type="checkbox" v-model="value.additional.box" />
+                  <div>Dodaj antyramę - 19,99&nbsp;PLN</div>
+                </label>
+                <label>
+                  <input type="checkbox" v-model="value.additional.packaging" />
+                  <div>Zapakuj na prezent - 9,99&nbsp;PLN</div>
+                </label>
+              </div>
+            </div>
+          </div>
+          <!--          <table class="summary__basket__table">-->
+          <!--            <thead>-->
+          <!--              <tr>-->
+          <!--                <th>Produkt</th>-->
+          <!--                <th>Cena</th>-->
+          <!--                <th>Ilość</th>-->
+          <!--                <th>Kwota</th>-->
+          <!--              </tr>-->
+          <!--            </thead>-->
+          <!--            <tbody>-->
+          <!--              <tr v-for="(value, key) in basket" :key="key">-->
+          <!--                <td>{{ packages[value.id].header }}</td>-->
+          <!--                <td>{{ packages[value.id].realPrice }}&nbsp;PLN</td>-->
+          <!--                <td>{{ value.count }}</td>-->
+          <!--                <td>-->
+          <!--                  {{-->
+          <!--                    parseFloat(-->
+          <!--                      (packages[value.id].realPrice * value.count).toFixed(2)-->
+          <!--                    )-->
+          <!--                  }}&nbsp;PLN-->
+          <!--                </td>-->
+          <!--              </tr>-->
+          <!--            </tbody>-->
+          <!--          </table>-->
+          <div class="summary__basket__total">
+            <b>łącznie: {{ totalPrice }}&nbsp;PLN</b>
+          </div>
+        </div>
       </div>
     </section>
   </main>
@@ -92,7 +139,76 @@
 import Package from "@/components/layout/Package";
 export default {
   name: "JoinUs",
-  components: { Package }
+  components: { Package },
+  data() {
+    return {
+      packages: {
+        1: {
+          id: 1,
+          header: "Pakiet serduszko",
+          content: [
+            "Wpis wyrażający uczucia w Księdze Miliona Serc",
+            "Imienny certyfikat",
+            "Wpis w formie kartki wydrukowanej oraz online"
+          ],
+          realPrice: 9.97,
+          price: 0
+        },
+        2: {
+          id: 2,
+          header: "Pakiet wielkie serce",
+          content: [
+            "Wpis wyrażający uczucia w Księdze Miliona Serc",
+            "Imienny certyfikat",
+            "Wpis w formie kartki wydrukowanej oraz online",
+            "Srebrny naszyjnik z zawieszką"
+          ],
+          realPrice: 0.0,
+          price: 0
+        },
+        3: {
+          id: 3,
+          header: "Pakiet złote serce",
+          content: [
+            "Wpis wyrażający uczucia w Księdze Miliona Serc",
+            "Imienny certyfikat",
+            "Wpis w formie kartki wydrukowanej oraz online",
+            "Pakiet biżuterii dla kobiet lub mężczyzn"
+          ],
+          realPrice: 0.0,
+          price: 0
+        },
+        4: {
+          id: 4,
+          header: "Pakiet vip",
+          content: [
+            "Wpis wyrażający uczucia w Księdze Miliona Serc",
+            "Imienny certyfikat",
+            "Wpis w formie kartki wydrukowanej oraz online",
+            "Pakiet biżuterii dla kobiet lub mężczyzn",
+            "Wizyta niezwykłego 3m Misia Pandy"
+          ],
+          realPrice: 5500,
+          price: 5500
+        }
+      },
+      basket: {},
+      totalPrice: null
+    };
+  },
+  watch: {
+    basket: function() {
+      console.log("XDD");
+    }
+  },
+  methods: {
+    addToBasket(packages) {
+      this.basket[packages.id] = packages;
+    },
+    clearItemFromBasket(id) {
+      delete this.basket[id];
+    }
+  }
 };
 </script>
 
@@ -152,6 +268,7 @@ img {
   &--chose-packages {
     &__wrapper {
       display: grid;
+      margin-bottom: 32px;
       flex-direction: row;
 
       @media (min-width: $breakpoint-md) {
@@ -255,6 +372,129 @@ img {
           }
         }
       }
+    }
+  }
+
+  .summary {
+    &__basket {
+      &__table {
+        &__item {
+          &__info {
+            position: relative;
+            padding-left: 40px;
+          }
+
+          &__additional {
+            padding: 8px;
+            background-color: $lightGray;
+            margin-top: 12px;
+            h6 {
+              font-weight: 600;
+              text-transform: uppercase;
+              font-size: 14px;
+              margin: 0 0 4px 0;
+            }
+            label {
+              display: flex;
+              input {
+                margin-right: 4px;
+              }
+              line-height: 150%;
+              font-weight: 500;
+              font-size: 12px;
+            }
+          }
+
+          &__close {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            transition: border 0.5s ease;
+            border: 2px solid $mediumGray;
+            &:hover {
+              border: 2px solid red;
+              &:after,
+              &:before {
+                background-color: red;
+              }
+            }
+            &::after,
+            &::before {
+              content: "";
+              position: absolute;
+              left: 10%;
+              width: 80%;
+              top: calc(50% - 1px);
+              height: 2px;
+              transition: background-color 0.5s ease;
+
+              background-color: $mediumGray;
+            }
+            &::after {
+              transform: rotate(-45deg);
+            }
+            &::before {
+              transform: rotate(45deg);
+            }
+          }
+          &__name {
+            text-transform: uppercase;
+            font-weight: 700;
+            font-size: 16px;
+            margin: 0.5em 0;
+          }
+          &__count {
+            input {
+              width: 25px;
+            }
+          }
+          &__price,
+          &__total,
+          &__count {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            &::before {
+              text-transform: uppercase;
+              font-family: "Gelasio", sans-serif;
+              font-weight: 500;
+            }
+          }
+          &__price {
+            &::before {
+              content: "Cena";
+            }
+          }
+          &__count {
+            &::before {
+              content: "Ilość";
+            }
+          }
+          &__total {
+            &::before {
+              content: "Kwota";
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &--summary {
+    margin: 32px 0;
+    &__wrapper {
+      h4 {
+        color: $colorGold;
+      }
+      width: 100%;
+      box-sizing: border-box;
+      padding: 30px;
+
+      text-align: left;
+      border: 10px solid $lightGray;
     }
   }
 }

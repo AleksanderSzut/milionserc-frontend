@@ -12,11 +12,11 @@
       <div class="package__bottom">
         <div class="package__price">
           <div>Cena: {{ price }}&nbsp;PLN</div>
-          <small>{{ additionalPriceInfo }}</small>
+          <small>{{ additionalPriceInfo(price, realPrice) }}</small>
         </div>
         <div class="package__chose">
           <label>
-            <input type="checkbox" />
+            <input type="checkbox" v-model="active" />
             wybierz
           </label>
           <div class="package__chose__quantity">
@@ -36,15 +36,47 @@ export default {
   data() {
     return {
       expanded: false,
-      count: 1
+      count: 1,
+      active: false
     };
+  },
+  emits: ["add-to-basket", "clear-basket"],
+  watch: {
+    active: function() {
+      console.log(this.active);
+      if (this.active)
+        this.$emit("add-to-basket", {
+          count: this.count,
+          id: this.id,
+          additional: {
+            box: false,
+            packaging: false
+          }
+        });
+      else this.$emit("clear-basket", this.id);
+    },
+    count: function() {
+      if (this.active) {
+        this.$emit("add-to-basket", { count: this.count, id: this.id });
+      }
+    }
   },
   methods: {
     decrementCount() {
       if (this.count > 1) this.count--;
+    },
+    additionalPriceInfo(price, realPrice) {
+      let diff = parseInt(realPrice) - parseInt(price);
+      if (diff !== 0) {
+        return `+ koszty wysyłki: ${realPrice}`;
+      } else return `brak dodatkowych kosztów`;
     }
   },
   props: {
+    id: {
+      type: Number,
+      required: true
+    },
     header: {
       type: String,
       required: true
@@ -57,8 +89,8 @@ export default {
       type: Number,
       required: true
     },
-    additionalPriceInfo: {
-      type: String,
+    realPrice: {
+      type: Number,
       required: true
     }
   }
