@@ -139,6 +139,7 @@ a {
       align-items: center;
       flex-direction: column;
       justify-content: center;
+      filter: blur(05px);
       background-color: rgba(0, 0, 0, 0.8);
       transition: all ease-out 0.5s;
 

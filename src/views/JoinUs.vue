@@ -33,12 +33,66 @@
         </div>
       </div>
     </section>
+    <section class="main-section main-section--chose-packages">
+      <h3>
+        Wybierz jeden z dostępnych pakietów i wyraź swoje uczucia inaczej niż
+        wszyscy.
+      </h3>
+      <div class="main-section--chose-packages__wrapper">
+        <Package
+          header="Pakiet serduszko"
+          :content="[
+            'Wpis wyrażający uczucia w Księdze Miliona Serc',
+            'Imienny certyfikat',
+            'Wpis w formie kartki wydrukowanej oraz online'
+          ]"
+          price="0"
+          additional-price-info="+ koszty wysyłki: 9,97 PLN"
+        />
+        <Package
+          header="Pakiet wielkie serce"
+          :content="[
+            'Wpis wyrażający uczucia w Księdze Miliona Serc',
+            'Imienny certyfikat',
+            'Wpis w formie kartki wydrukowanej oraz online',
+            'Srebrny naszyjnik z zawieszką'
+          ]"
+          price="0"
+          additional-price-info="+ koszty wysyłki: 0,00 PLN"
+        />
+        <Package
+          header="Pakiet złote serce"
+          :content="[
+            'Wpis wyrażający uczucia w Księdze Miliona Serc',
+            'Imienny certyfikat',
+            'Wpis w formie kartki wydrukowanej oraz online',
+            'Pakiet biżuterii dla kobiet lub mężczyzn'
+          ]"
+          price="0"
+          additional-price-info="+ koszty wysyłki: 9,97"
+        />
+        <Package
+          header="Pakiet vip"
+          :content="[
+            'Wpis wyrażający uczucia w Księdze Miliona Serc',
+            'Imienny certyfikat',
+            'Wpis w formie kartki wydrukowanej oraz online',
+            'Pakiet biżuterii dla kobiet lub mężczyzn',
+            'Wizyta niezwykłego 3m Misia Pandy'
+          ]"
+          price="5500"
+          additional-price-info="brak dodatkowych kosztów"
+        />
+      </div>
+    </section>
   </main>
 </template>
 
 <script>
+import Package from "@/components/layout/Package";
 export default {
-  name: "JoinUs"
+  name: "JoinUs",
+  components: { Package }
 };
 </script>
 
@@ -60,15 +114,15 @@ img {
   display: flex;
   flex-direction: column;
   align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  width: 100%;
+  box-sizing: border-box;
 
   h4 {
     font-size: 1.4em;
   }
-
-  align-content: center;
-  justify-content: center;
-  justify-items: center;
-
   h1,
   h2,
   h3,
@@ -95,6 +149,24 @@ img {
   &--header {
     margin-top: 2em;
   }
+  &--chose-packages {
+    &__wrapper {
+      display: grid;
+      flex-direction: row;
+
+      @media (min-width: $breakpoint-md) {
+        column-gap: 12px;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+      }
+      @media (min-width: $breakpoint-lg) {
+        column-gap: 12px;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-rows: auto auto auto;
+      }
+    }
+  }
+
   &--steps {
     margin: 32px 0;
     display: grid;
@@ -185,7 +257,5 @@ img {
       }
     }
   }
-  width: 100%;
-  box-sizing: border-box;
 }
 </style>
