@@ -26,7 +26,7 @@
         <router-link to="/ksiega-miliona-serc" tag="a">
           <span @click="closeNav()"> Księga miliona serc</span>
         </router-link>
-        <router-link to="/ksiega" tag="a">
+        <router-link to="/dolacz-do-nas" tag="a">
           <span @click="closeNav()"> Dołącz do nas</span>
         </router-link>
         <router-link to="/kontakt" tag="a">

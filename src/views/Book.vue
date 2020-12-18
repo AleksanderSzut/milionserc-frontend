@@ -48,10 +48,17 @@
     <section
       class="main-section main-section--no-line main-section--confessions"
     >
-      <h3>Wpisy dodane do księgi miliona serc</h3>
-      <button @click="toggleConfessionsPreview">
-        click
-      </button>
+      <header class=" main-section--confessions__header">
+        <div>
+          <h3>Wpisy dodane do księgi miliona serc</h3>
+          <div class="main-section--confessions__header__search-button">
+            <img src="@/assets/icons/lupa.svg" class="second" />
+          </div>
+          <div class="main-section--confessions__header__search-container">
+            <input class="" placeholder="Szukaj..." />
+          </div>
+        </div>
+      </header>
       <ConfessionPreview
         class="main-section--confessions__preview"
         v-if="preview.active"
@@ -143,6 +150,44 @@ img {
 
   &--confessions {
     width: 100%;
+    &__header {
+      position: relative;
+      justify-content: center;
+      display: flex;
+      width: 100%;
+      &__search-container {
+        margin-bottom: 24px;
+        input {
+          height: 24px;
+          width: 70%;
+          border-style: none none solid none;
+        }
+      }
+      &__search-button {
+        text-transform: uppercase;
+        right: 0;
+        top: 1em;
+        width: 2em;
+        margin: 0 auto 12px;
+        @media (min-width: $breakpoint-sm) {
+          margin: 0;
+          position: absolute;
+        }
+        transition: transform ease 0.2s;
+        cursor: pointer;
+        &:hover {
+          transform: scale(1.4);
+        }
+        display: flex;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 16px;
+        align-items: center;
+        img {
+          height: 2em;
+        }
+      }
+    }
   }
 
   &--book {
