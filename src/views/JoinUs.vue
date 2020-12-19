@@ -55,93 +55,184 @@
       </div>
     </section>
     <section class="main-section main-section--no-line main-section--summary">
-      <div class="main-section--summary__wrapper summary">
-        <h4>Koszyk</h4>
-        <div class="summary__basket">
-          <header class="summary__basket__header">
-            <h5>Produkty</h5>
-          </header>
-          <div class="summary__basket__table">
-            <div
-              v-for="(value, key) in basket"
-              :key="key"
-              class="summary__basket__table__item"
+      <h4>Podsumowanie</h4>
+      <form class="main-section--summary__wrapper summary">
+        <div v-if="Object.keys(basket).length > 0">
+          <h4>Koszyk</h4>
+          <div class="summary__basket" :class="{ 'is-expand': expandBasket }">
+            <header
+              class="summary__basket__header summary__sections__header"
+              @click="expandBasket = !expandBasket"
+              :class="{ 'is-expand': expandBasket }"
             >
-              <div class="summary__basket__table__item__info">
-                <div
-                  class="summary__basket__table__item__close"
-                  @click="clearItemFromBasket(value.id)"
-                ></div>
-                <h5 class="summary__basket__table__item__name">
-                  {{ packages[value.id].header }}
-                </h5>
-                <div class="summary__basket__table__item__price">
-                  {{ packages[value.id].realPrice }}&nbsp;PLN
+              <h5>Produkty</h5>
+            </header>
+
+            <div class="summary__basket__table">
+              <!-- onlu for md size and larger -->
+              <div class="summary__basket__table__header">
+                <div>
+                  produkt
                 </div>
-                <div class="summary__basket__table__item__count">
-                  <input type="number" min="0" v-model="value.count" />
+                <div>
+                  cena
                 </div>
-                <div class="summary__basket__table__item__total">
-                  {{
-                    parseFloat(
-                      (packages[value.id].realPrice * value.count).toFixed(2)
-                    )
-                  }}&nbsp;PLN
+                <div>
+                  ilość
                 </div>
+                <div>kwota</div>
               </div>
-              <div class="summary__basket__table__item__additional">
-                <h6>Opcje dodatkowe</h6>
-                <label>
-                  <input type="checkbox" v-model="value.additional.box" />
-                  <div>Dodaj antyramę - 19,99&nbsp;PLN</div>
-                </label>
-                <label>
-                  <input type="checkbox" v-model="value.additional.packaging" />
-                  <div>Zapakuj na prezent - 9,99&nbsp;PLN</div>
-                </label>
+
+              <div
+                v-for="(value, key) in basket"
+                :key="key"
+                class="summary__basket__table__item"
+              >
+                <div class="summary__basket__table__item__info">
+                  <h5 class="summary__basket__table__item__name">
+                    <div
+                      class="summary__basket__table__item__close"
+                      @click="clearItemFromBasket(value.id)"
+                    ></div>
+                    {{ packages[value.id].header }}
+                  </h5>
+                  <div class="summary__basket__table__item__price">
+                    {{ packages[value.id].realPrice }}&nbsp;PLN
+                  </div>
+                  <div class="summary__basket__table__item__count">
+                    <input type="number" min="0" v-model="value.count" />
+                  </div>
+                  <div class="summary__basket__table__item__total">
+                    {{
+                      parseFloat(
+                        (
+                          packages[value.id].realPrice * value.count +
+                          (value.additional.box.active === true
+                            ? value.additional.box.price
+                            : 0) +
+                          (value.additional.packaging.active === true
+                            ? value.additional.packaging.price
+                            : 0)
+                        ).toFixed(2)
+                      )
+                    }}&nbsp;PLN
+                  </div>
+                </div>
+                <div class="summary__basket__table__item__additional">
+                  <h6>Opcje dodatkowe: &nbsp;</h6>
+                  <label>
+                    <input
+                      type="checkbox"
+                      v-model="value.additional.box.active"
+                    />
+                    <div>
+                      Dodaj antyramę - {{ value.additional.box.price }}&nbsp;PLN
+                    </div>
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      v-model="value.additional.packaging.active"
+                    />
+                    <div>
+                      Zapakuj na prezent -
+                      {{ value.additional.packaging.price }}&nbsp;PLN
+                    </div>
+                  </label>
+                </div>
               </div>
             </div>
           </div>
-          <!--          <table class="summary__basket__table">-->
-          <!--            <thead>-->
-          <!--              <tr>-->
-          <!--                <th>Produkt</th>-->
-          <!--                <th>Cena</th>-->
-          <!--                <th>Ilość</th>-->
-          <!--                <th>Kwota</th>-->
-          <!--              </tr>-->
-          <!--            </thead>-->
-          <!--            <tbody>-->
-          <!--              <tr v-for="(value, key) in basket" :key="key">-->
-          <!--                <td>{{ packages[value.id].header }}</td>-->
-          <!--                <td>{{ packages[value.id].realPrice }}&nbsp;PLN</td>-->
-          <!--                <td>{{ value.count }}</td>-->
-          <!--                <td>-->
-          <!--                  {{-->
-          <!--                    parseFloat(-->
-          <!--                      (packages[value.id].realPrice * value.count).toFixed(2)-->
-          <!--                    )-->
-          <!--                  }}&nbsp;PLN-->
-          <!--                </td>-->
-          <!--              </tr>-->
-          <!--            </tbody>-->
-          <!--          </table>-->
-          <div class="summary__basket__total">
-            <b>łącznie: {{ totalPrice }}&nbsp;PLN</b>
+
+          <div class="summary__total">
+            <div><b>łącznie:</b></div>
+            <div>
+              <b> {{ totalPrice }}&nbsp;PLN</b>
+            </div>
+          </div>
+
+          <div
+            class="summary__payment-data"
+            :class="{ 'is-expand': expandPaymentData }"
+          >
+            <header
+              class="summary__sections__header"
+              @click="expandPaymentData = !expandPaymentData"
+              :class="{ 'is-expand': expandPaymentData }"
+            >
+              <h5>Dane użytkownika</h5>
+            </header>
+            <div class="summary__payment-data__chose">
+              <span
+                @click="companyData = false"
+                :class="{ active: !companyData }"
+              >
+                Osoba fizyczna
+              </span>
+              <span
+                @click="companyData = true"
+                :class="{ active: companyData }"
+              >
+                Firma
+              </span>
+            </div>
+            <section
+              v-if="companyData"
+              class="summary__payment-data__form"
+            ></section>
+            <section v-else class="summary__payment-data__form"></section>
           </div>
         </div>
-      </div>
+        <div v-else>
+          Nie wybrano żadnego pakietu.
+        </div>
+      </form>
     </section>
   </main>
 </template>
 
 <script>
 import Package from "@/components/layout/Package";
+//
+// import { Form, Field } from "vee-validate";
+// import * as Yup from "yup";
+
 export default {
   name: "JoinUs",
-  components: { Package },
+  components: { Package /*Form, Field*/ },
   data() {
+    /*
+    const schema = Yup.object().shape({
+      title: Yup.string().required("Title is required"),
+      firstName: Yup.string().required("First Name is required"),
+      lastName: Yup.string().required("Last name is required"),
+      dob: Yup.string()
+        .required("Date of Birth is required")
+        .matches(
+          /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/,
+          "Date of Birth must be a valid date in the format YYYY-MM-DD"
+        ),
+      email: Yup.string()
+        .required("Email is required")
+        .email("Email is invalid"),
+      password: Yup.string()
+        .min(6, "Password must be at least 6 characters")
+        .required("Password is required"),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref("password"), null], "Passwords must match")
+        .required("Confirm Password is required"),
+      acceptTerms: Yup.string().required("Accept Ts & Cs is required")
+    });
+
+    const onSubmit = values => {
+      // display form values on success
+      alert("SUCCESS!! :-)\n\n" + JSON.stringify(values, null, 4));
+    };*/
+
     return {
+      /*
+      schema,
+      onSubmit,*/
       packages: {
         1: {
           id: 1,
@@ -193,20 +284,48 @@ export default {
         }
       },
       basket: {},
-      totalPrice: null
+      totalPrice: 0,
+
+      expandBasket: false,
+      expandPaymentData: false,
+      expandShippingData: false,
+      companyData: false
     };
   },
   watch: {
-    basket: function() {
-      console.log("XDD");
+    basket: {
+      deep: true,
+      handler() {
+        this.calcTotalPrice();
+      }
     }
   },
   methods: {
+    calcTotalPrice() {
+      if (Object.keys(this.basket).length > 0)
+        this.totalPrice = Object.values(this.basket)
+          .reduce((acc, item) => {
+            return (
+              acc +
+              parseInt(this.packages[item.id].realPrice * item.count) +
+              (item.additional.box.active === true
+                ? item.additional.box.price
+                : 0) +
+              (item.additional.packaging.active === true
+                ? item.additional.packaging.price
+                : 0)
+            );
+          }, 0)
+          .toFixed(2);
+    },
     addToBasket(packages) {
       this.basket[packages.id] = packages;
+      this.expandBasket = true;
+      this.calcTotalPrice();
     },
     clearItemFromBasket(id) {
       delete this.basket[id];
+      this.calcTotalPrice();
     }
   }
 };
@@ -376,15 +495,159 @@ img {
   }
 
   .summary {
+    &__total {
+      width: 100%;
+      text-transform: uppercase;
+      font-family: "Gelasio", sans-serif;
+      font-size: 18px;
+      justify-content: space-between;
+      border-bottom: 2px solid black;
+      padding: 0 6px;
+      position: relative;
+      display: flex;
+      margin: 24px 0;
+      align-items: center;
+      height: 35px;
+      box-sizing: border-box;
+    }
+    &__sections {
+      &__header {
+        width: 100%;
+        text-transform: uppercase;
+        font-family: "Gelasio", sans-serif;
+        font-size: 20px;
+        border-bottom: 2px solid black;
+        padding: 0 6px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: 35px;
+        box-sizing: border-box;
+        cursor: pointer;
+        &.is-expand {
+          &::after {
+            transform: translateY(-50%);
+          }
+        }
+        &::after {
+          content: "";
+          width: 20px;
+          transform: translateY(-50%) rotate(-90deg);
+          display: block;
+          height: 20px;
+          transition: transform ease 0.5s;
+          right: 5px;
+          top: 50%;
+          position: absolute;
+          background-image: url("../assets/icons/down-chevron.svg");
+          background-repeat: no-repeat, repeat;
+          /* arrow icon position (1em from the right, 50% vertical) , then gradient position*/
+          background-position: center;
+          /* icon size, then gradient */
+          background-size: cover;
+        }
+
+        h5 {
+          margin: 0;
+        }
+      }
+    }
     &__basket {
+      @media (max-width: $breakpoint-md) {
+        max-height: 35px;
+      }
+      transition: max-height ease-in-out 1s;
+      &.is-expand {
+        max-height: 800px;
+        @media (min-width: $breakpoint-md) {
+          max-height: none;
+        }
+      }
+      overflow: hidden;
+      &__header {
+        width: 100%;
+        text-transform: uppercase;
+        font-family: "Gelasio", sans-serif;
+        font-size: 20px;
+        border-bottom: 2px solid black;
+        padding: 0 6px;
+        @media (min-width: $breakpoint-md) {
+          display: none;
+        }
+        position: relative;
+        display: flex;
+        align-items: center;
+        height: 35px;
+        box-sizing: border-box;
+        cursor: pointer;
+        &.is-expand {
+          &::after {
+            transform: translateY(-50%);
+          }
+        }
+        &::after {
+          content: "";
+          width: 20px;
+          transform: translateY(-50%) rotate(-90deg);
+          display: block;
+          height: 20px;
+          transition: transform ease 0.5s;
+          right: 5px;
+          top: 50%;
+          position: absolute;
+          background-image: url("../assets/icons/down-chevron.svg");
+          background-repeat: no-repeat, repeat;
+          /* arrow icon position (1em from the right, 50% vertical) , then gradient position*/
+          background-position: center;
+          /* icon size, then gradient */
+          background-size: cover;
+        }
+
+        h5 {
+          margin: 0;
+        }
+      }
       &__table {
+        @media (min-width: $breakpoint-md) {
+          display: grid;
+          grid-template-columns: auto auto auto auto;
+          align-items: center;
+        }
+
+        &__header {
+          display: none;
+          @media (min-width: $breakpoint-md) {
+            display: contents;
+
+            div {
+              border-bottom: 2px solid black;
+              line-height: 150%;
+              text-transform: uppercase;
+              font-family: "Gelasio", sans-serif;
+              font-weight: 600;
+            }
+          }
+        }
+
         &__item {
+          display: contents;
+
           &__info {
+            @media (min-width: $breakpoint-md) {
+              display: contents;
+              padding: 12px 0;
+            }
             position: relative;
             padding-left: 40px;
           }
 
           &__additional {
+            @media (min-width: $breakpoint-md) {
+              grid-column: 1/-1;
+              margin-top: 0;
+            }
+            display: flex;
+            flex-wrap: wrap;
             padding: 8px;
             background-color: $lightGray;
             margin-top: 12px;
@@ -442,13 +705,23 @@ img {
           }
           &__name {
             text-transform: uppercase;
+            @media (min-width: $breakpoint-md) {
+              padding-left: 40px;
+              position: relative;
+            }
             font-weight: 700;
             font-size: 16px;
             margin: 0.5em 0;
           }
           &__count {
             input {
-              width: 25px;
+              text-align: center;
+              &::-webkit-outer-spin-button,
+              &::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+              }
+              width: 35px;
             }
           }
           &__price,
@@ -457,7 +730,15 @@ img {
             width: 100%;
             display: flex;
             justify-content: space-between;
+
+            @media (min-width: $breakpoint-md) {
+              padding: 16px 0;
+            }
+
             &::before {
+              @media (min-width: $breakpoint-md) {
+                display: none;
+              }
               text-transform: uppercase;
               font-family: "Gelasio", sans-serif;
               font-weight: 500;
@@ -480,6 +761,8 @@ img {
           }
         }
       }
+    }
+    &__paymentData {
     }
   }
 

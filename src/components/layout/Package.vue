@@ -43,25 +43,29 @@ export default {
   emits: ["add-to-basket", "clear-basket"],
   watch: {
     active: function() {
-      console.log(this.active);
-      if (this.active)
-        this.$emit("add-to-basket", {
-          count: this.count,
-          id: this.id,
-          additional: {
-            box: false,
-            packaging: false
-          }
-        });
+      if (this.active) this.addItemEmit();
       else this.$emit("clear-basket", this.id);
     },
     count: function() {
       if (this.active) {
-        this.$emit("add-to-basket", { count: this.count, id: this.id });
+        this.addItemEmit();
       }
     }
   },
   methods: {
+    addItemEmit() {
+      this.$emit("add-to-basket", {
+        count: this.count,
+        id: this.id,
+        additional: {
+          box: {
+            active: false,
+            price: 19.99
+          },
+          packaging: { active: false, price: 9.99 }
+        }
+      });
+    },
     decrementCount() {
       if (this.count > 1) this.count--;
     },
