@@ -6,7 +6,7 @@
         sposób je wyrazić słowami.
       </h3>
       <simple-parallax
-        parallax-src="parallax-home.mp4"
+        parallax-src="Księga_animacja_v2.mp4"
         type="2"
         orientation="down"
         scale="1.25"
@@ -103,11 +103,9 @@
           zostaną uwiecznione na zawsze</b
         >
       </p>
-      <router-link to="dodaj-wpis" class="home-section--self-promo__button"
-        >
+      <router-link to="dodaj-wpis" class="home-section--self-promo__button">
         <golden-button>Dodaj bezpłatny wpis</golden-button>
-      </router-link
-      >
+      </router-link>
       <img src="@/assets/images/1_3.jpg" alt="zaświadczenie wiz" />
     </section>
     <!--    <section class="home-section home-section&#45;&#45;posts">-->
