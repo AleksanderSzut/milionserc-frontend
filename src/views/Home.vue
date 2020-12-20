@@ -6,7 +6,7 @@
         sposób je wyrazić słowami.
       </h3>
       <simple-parallax
-        parallax-src="Księga_animacja_v1.mp4"
+        parallax-src="parallax-home.mp4"
         type="2"
         orientation="down"
         scale="1.25"
