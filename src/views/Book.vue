@@ -20,7 +20,7 @@
         <div class="main-section--book__info__video">
           <video preload="true" autoplay muted>
             <source
-              src="@/assets/otwarcie-ksiegi-milion-serc.mp4"
+              :src="require(`@/assets/otwarcie-ksiegi-milion-serc.mp4`)"
               type="video/mp4"
             />
           </video>
