@@ -12,26 +12,45 @@
     </router-link>
     <div class="main-header__nav" :class="{ isOpen: isOpen }">
       <div
+        tabindex="0"
+        aria-pressed="true"
+        role="menu"
+        aria-haspopup="true"
         class="main-header__burger-button"
         @click="toggleNav()"
+        @keydown.space="toggleNav()"
         :class="{ isOpen: isOpen }"
       ></div>
-      <nav class="main-header__nav-links">
-        <router-link to="/" tag="a">
-          <span @click="closeNav()"> Strona główna</span>
-        </router-link>
-        <router-link to="jak-to-dziala" tag="a">
-          <span @click="closeNav()"> Jak to działa?</span>
-        </router-link>
-        <router-link to="/ksiega-miliona-serc" tag="a">
-          <span @click="closeNav()"> Księga miliona serc</span>
-        </router-link>
-        <router-link to="/dolacz-do-nas" tag="a">
-          <span @click="closeNav()"> Dołącz do nas</span>
-        </router-link>
-        <router-link to="/kontakt" tag="a">
-          <span @click="closeNav()"> Kontakt</span>
-        </router-link>
+      <nav
+        class="main-header__nav-links"
+        role="menuitem"
+        :aria-expanded="isOpen"
+      >
+        <span @click="closeNav()">
+          <router-link to="/" tag="a">
+            Strona główna
+          </router-link>
+        </span>
+        <span @click="closeNav()">
+          <router-link to="jak-to-dziala" tag="a">
+            Jak to działa?
+          </router-link>
+        </span>
+        <span @click="closeNav()">
+          <router-link to="/ksiega-miliona-serc" tag="a">
+            Księga miliona serc
+          </router-link>
+        </span>
+        <span @click="closeNav()">
+          <router-link to="/dolacz-do-nas" tag="a">
+            Dołącz do nas
+          </router-link>
+        </span>
+        <span @click="closeNav()">
+          <router-link to="/kontakt" tag="a">
+            Kontakt
+          </router-link>
+        </span>
         <a href="https://fb.com/" class="main-header__icons">
           <img src="../../assets/icons/logos/001-facebook.svg" />
         </a>
@@ -151,8 +170,12 @@ a {
       transition: color ease-out 0.3s;
     }
 
+    span {
+      display: contents;
+    }
+
     @media (min-width: $breakpoint-lg) {
-      a {
+      span {
         &:first-child {
           display: none;
         }
