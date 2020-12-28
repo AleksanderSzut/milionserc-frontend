@@ -17,14 +17,7 @@
             jakbyś podzielił się z kimś swoim sercem.
           </p>
         </div>
-        <div class="main-section--book__info__video">
-          <video preload="true" autoplay muted>
-            <source
-              :src="require(`@/assets/otwarcie-ksiegi-milion-serc.mp4`)"
-              type="video/mp4"
-            />
-          </video>
-        </div>
+        <div class="main-section--book__info__video"></div>
       </div>
       <div class="main-section--book__plans">
         <div class="main-section--book__plans__item">
