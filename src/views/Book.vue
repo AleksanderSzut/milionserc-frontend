@@ -17,13 +17,11 @@
             jakbyś podzielił się z kimś swoim sercem.
           </p>
         </div>
-        <div class="main-section--book__info__video">
-          <video preload="true" autoplay muted>
-            <source
-              src="@/assets/otwarcie-ksiegi-milion-serc.mp4"
-              type="video/mp4"
-            />
-          </video>
+        <div class="main-section--book__info__img">
+          <img
+            src="@/assets/images/3_1.jpg"
+            alt="Otwarta Księga Miliona Serc"
+          />
         </div>
       </div>
       <div class="main-section--book__plans">
@@ -212,11 +210,8 @@ img {
           font-weight: 500;
         }
       }
-      &__video {
+      &__img {
         margin: 0 auto;
-        video {
-          max-width: 100%;
-        }
         @media (min-width: $breakpoint-md) {
           margin: 0;
         }
