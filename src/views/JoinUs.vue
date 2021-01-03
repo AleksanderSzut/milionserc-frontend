@@ -160,7 +160,7 @@
               @click="expandPaymentData = !expandPaymentData"
               :class="{ 'is-expand': expandPaymentData }"
             >
-              <h5>Dane użytkownika</h5>
+              <h5>Dane Płatności</h5>
             </header>
             <div class="summary__payment-data__chose">
               <span
@@ -176,11 +176,36 @@
                 Firma
               </span>
             </div>
-            <section
-              v-if="companyData"
-              class="summary__payment-data__form"
-            ></section>
-            <section v-else class="summary__payment-data__form"></section>
+            <section class="summary__payment-data__form">
+              <PaymentDataCompany v-if="companyData" />
+              <PaymentDataIndividual v-else />
+              <small class="summary__payment-data__form__legend">
+                * pole obowiązkowe
+              </small>
+            </section>
+          </div>
+
+          <div
+            class="summary__shipping-data"
+            :class="{ 'is-expand': expandShippingData }"
+          >
+            <header
+              class="summary__sections__header"
+              @click="expandShippingData = !expandShippingData"
+              :class="{ 'is-expand': expandShippingData }"
+            >
+              <h5>
+                Dane do wysyłki
+                <span class="small-characters">(opcjonalne)</span>
+              </h5>
+            </header>
+            <section class="summary__shipping-data__form">
+              <PaymentDataCompany v-if="companyData" />
+              <PaymentDataIndividual v-else />
+              <small class="summary__payment-data__form__legend">
+                * pole obowiązkowe
+              </small>
+            </section>
           </div>
         </div>
         <div v-else>
@@ -193,13 +218,19 @@
 
 <script>
 import Package from "@/components/layout/Package";
+import PaymentDataCompany from "@/components/layout/form/PaymentDataCompany";
+import PaymentDataIndividual from "@/components/layout/form/PaymentDataIndividual";
 //
 // import { Form, Field } from "vee-validate";
 // import * as Yup from "yup";
 
 export default {
   name: "JoinUs",
-  components: { Package /*Form, Field*/ },
+  components: {
+    PaymentDataIndividual,
+    PaymentDataCompany,
+    Package /*Form, Field*/
+  },
   data() {
     /*
     const schema = Yup.object().shape({
@@ -495,6 +526,12 @@ img {
   }
 
   .summary {
+    h5 {
+      .small-characters {
+        text-transform: lowercase;
+      }
+    }
+
     &__total {
       width: 100%;
       text-transform: uppercase;
@@ -552,18 +589,17 @@ img {
         }
       }
     }
-    &__basket {
-      @media (max-width: $breakpoint-md) {
-        max-height: 35px;
-      }
+    &__basket,
+    &__payment-data,
+    &__shipping-data {
+      overflow: hidden;
+      max-height: 35px;
       transition: max-height ease-in-out 1s;
       &.is-expand {
         max-height: 800px;
-        @media (min-width: $breakpoint-md) {
-          max-height: none;
-        }
       }
-      overflow: hidden;
+    }
+    &__basket {
       &__header {
         width: 100%;
         text-transform: uppercase;
@@ -762,7 +798,35 @@ img {
         }
       }
     }
-    &__paymentData {
+    &__payment-data {
+      margin: 24px 0;
+      &__chose {
+        padding: 12px 0;
+        text-transform: uppercase;
+        color: $mediumGray;
+        font-weight: 600;
+        span {
+          cursor: pointer;
+          transition: color ease 0.4s;
+
+          &.active {
+            color: $colorGold;
+          }
+          &:first-child {
+            margin-right: 16px;
+          }
+        }
+      }
+      &__form {
+        &__legend {
+          color: red;
+
+          font-weight: 400;
+        }
+      }
+    }
+    &__shipping-data {
+      margin: 24px 0;
     }
   }
 

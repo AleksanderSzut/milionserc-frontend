@@ -167,13 +167,15 @@ export default {
   &__chose {
     background-color: $lightGray;
     display: flex;
-
-    margin: 10px;
     align-items: center;
+    margin: 10px;
     padding: 12px;
     justify-content: space-between;
     label {
       cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
     }
     &__quantity {
       display: flex;
