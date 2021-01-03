@@ -108,19 +108,22 @@
       </router-link>
       <img src="@/assets/images/1_3.jpg" alt="zaświadczenie wiz" />
     </section>
-    <!--    <section class="home-section home-section&#45;&#45;posts">-->
-    <!--      <h4>Wybrane wpisy księgi miliona serc</h4>-->
-    <!--    </section>-->
-    <!--    <section></section>-->
+    <section
+      class="home-section home-section--confessions home-section--no-line"
+    >
+      <h4>Wybrane wpisy księgi miliona serc</h4>
+      <ConfessionsGrid />
+    </section>
   </main>
 </template>
 
 <script>
 import SimpleParallax from "@/components/effects/Parallax";
 import GoldenButton from "@/components/layout/GoldenButton";
+import ConfessionsGrid from "@/components/layout/ConfessionsGrid";
 export default {
   name: "Home",
-  components: { GoldenButton, SimpleParallax }
+  components: { ConfessionsGrid, GoldenButton, SimpleParallax }
 };
 </script>
 
@@ -187,6 +190,13 @@ img {
     }
   }
 }
+.home-section--confessions {
+  h4 {
+    font-weight: 500;
+    font-size: 1.4em;
+  }
+}
+
 .home-section--book {
   h2 {
     margin-top: 0.3em;

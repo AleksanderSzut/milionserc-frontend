@@ -6,11 +6,11 @@
       <p>{{ name }}</p>
     </article>
     <nav class="confession-preview__nav">
-      <div class="confession-preview__nav__item">
+      <div class="confession-preview__nav__item" @click="previousConfession()">
         <img src="@/assets/icons/back.svg" class="first" />
         Poprzedni
       </div>
-      <div class="confession-preview__nav__item">
+      <div class="confession-preview__nav__item" @click="nextConfession()">
         Następny <img src="@/assets/icons/next.svg" class="second" />
       </div>
     </nav>
@@ -24,26 +24,70 @@
 
 <script>
 import ImgSlider from "@/components/layout/ImgSlider";
+import { mapGetters } from "vuex";
+
 export default {
   name: "ConfessionPreview",
   components: { ImgSlider },
+  watch: {
+    id: function() {
+      this.loadPreview();
+    }
+  },
   data() {
     return {
-      isVisible: false
+      isVisible: false,
+      header: null,
+      description: null,
+      name: null,
+      imagesUrl: [],
+      currentId: null
     };
   },
+  computed: {
+    ...mapGetters({
+      getConfessionById: "Confessions/getConfessionById",
+      getNextConfessionById: "Confessions/getNextConfessionById",
+      getPreviousConfessionById: "Confessions/getPreviousConfessionById"
+    })
+  },
   props: {
-    header: { type: String, default: "" },
-    description: { type: String, default: "" },
-    name: { type: String, default: "" },
-    imagesUrl: {
-      type: Array,
-      function() {
-        return [];
-      }
+    id: {
+      type: Number
     }
   },
   methods: {
+    setData(payload) {
+      this.header = payload.header;
+      this.description = payload.description;
+      this.name = payload.name;
+      this.imagesUrl = payload.imagesUrl;
+      this.currentId = payload.id;
+    },
+    showConfessionPreview() {
+      this.isVisible = true;
+    },
+
+    loadPreview() {
+      const confession = this.getConfessionById(this.id);
+
+      if (confession) this.setData(confession);
+      else this.isVisible = false;
+    },
+
+    hideConfessionPreview() {
+      this.isVisible = false;
+    },
+    previousConfession() {
+      const confession = this.getPreviousConfessionById(this.currentId);
+
+      if (confession) this.setData(confession);
+      else this.isVisible = false;
+    },
+    nextConfession() {
+      const confession = this.getNextConfessionById(this.currentId);
+      if (confession) this.setData(confession);
+    },
     toggleConfessionPreview() {
       this.isVisible = !this.isVisible;
     }

@@ -78,6 +78,7 @@ export default {
   }
   &__item {
     object-fit: cover;
+    object-position: 50% 50%;
     width: 100%;
   }
 }

@@ -1,10 +1,11 @@
 import { createStore } from "vuex";
+import Confessions from "./modules/confessions";
 
 export default createStore({
-  state: {
-    confessions: {}
-  },
+  state: {},
   mutations: {},
   actions: {},
-  modules: {}
+  modules: {
+    Confessions
+  }
 });

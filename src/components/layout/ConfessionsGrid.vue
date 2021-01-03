@@ -1,140 +1,58 @@
 <template>
-  <section class="confessions-grid">
-    <div
-      v-for="item in confessions"
-      :key="item.name"
-      class="confessions-grid__item "
-      :class="
-        item.size === `big`
-          ? `confessions-grid__item--big`
-          : `confessions-grid__item--small`
-      "
-    >
-      <img :src="item.image" :alt="item.name" />
-    </div>
-    <!--    <div class="confessions-grid__item confessions-grid__item&#45;&#45;big">-->
-    <!--      <img src="@/assets/images/2_2.jpg" alt="Nazwa wyznania" />-->
-    <!--    </div>-->
-    <!--    <div class="confessions-grid__item confessions-grid__item&#45;&#45;small">-->
-    <!--      <img src="@/assets/images/2_2.jpg" alt="Nazwa wyznania" />-->
-    <!--    </div>-->
-    <!--    <div class="confessions-grid__item confessions-grid__item&#45;&#45;big">-->
-    <!--      <img src="@/assets/images/2_2.jpg" alt="Nazwa wyznania" />-->
-    <!--    </div>-->
-  </section>
+  <div class="confessions-grid__container">
+    <ConfessionPreview
+      class="main-section--confessions__preview"
+      ref="confessionPreview"
+      :id="preview.id"
+    />
+    <section class="confessions-grid">
+      <div
+        v-for="item in getConfessions"
+        :key="item.name"
+        class="confessions-grid__item "
+        :class="
+          item.size === `big`
+            ? `confessions-grid__item--big`
+            : `confessions-grid__item--small`
+        "
+        @click="showConfessionPreview(item.id)"
+      >
+        <img :src="item.imagesUrl[0]" :alt="item.name" />
+      </div>
+    </section>
+  </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import ConfessionPreview from "@/components/layout/ConfessionPreview";
+
 export default {
   name: "ConfessionsGrid",
+  components: { ConfessionPreview },
   data() {
     return {
-      confessions: [
-        {
-          id: 1,
-          name: "Jakieś tam wyznanie",
-          size: "big",
-          image: require("../../assets/images/1_2a.jpg")
-        },
-        {
-          id: 2,
-          name: "Jakieś tam wyznanie",
-          size: "small",
-          image: require("../../assets/images/2_2.jpg")
-        },
-        {
-          id: 3,
-          name: "Jakieś tam wyznanie",
-          size: "small",
-          image: require("../../assets/images/2_2.jpg")
-        },
-        {
-          id: 4,
-          name: "Jakieś tam wyznanie",
-          size: "big",
-          image: require("../../assets/images/2_2.jpg")
-        },
-        {
-          id: 4,
-          name: "Jakieś tam wyznanie",
-          size: "big",
-          image: require("../../assets/images/2_2.jpg")
-        },
-        {
-          id: 2,
-          name: "Jakieś tam wyznanie",
-          size: "small",
-          image: require("../../assets/images/2_2.jpg")
-        },
-        {
-          id: 4,
-          name: "Jakieś tam wyznanie",
-          size: "big",
-          image: require("../../assets/images/2_2.jpg")
-        },
-        {
-          id: 4,
-          name: "Jakieś tam wyznanie",
-          size: "small",
-          image: require("../../assets/images/2_2.jpg")
-        },
-        {
-          id: 4,
-          name: "Jakieś tam wyznanie",
-          size: "big",
-          image: require("../../assets/images/2_2.jpg")
-        },
-        {
-          id: 4,
-          name: "Jakieś tam wyznanie",
-          size: "small",
-          image: require("../../assets/images/2_2.jpg")
-        },
-        {
-          id: 4,
-          name: "Jakieś tam wyznanie",
-          size: "big",
-          image: require("../../assets/images/2_2.jpg")
-        },
-        {
-          id: 4,
-          name: "Jakieś tam wyznanie",
-          size: "small",
-          image: require("../../assets/images/2_2.jpg")
-        }
-      ]
+      preview: {
+        id: null
+      }
     };
   },
   computed: {
-    getConfessions() {
-      return [
-        {
-          id: 1,
-          name: "Jakieś tam wyznanie",
-          size: "big",
-          src: "@/assets/images/2_2.jpg"
-        },
-        {
-          id: 2,
-          name: "Jakieś tam wyznanie",
-          size: "small",
-          src: "@/assets/images/2_2.jpg"
-        },
-        {
-          id: 3,
-          name: "Jakieś tam wyznanie",
-          size: "small",
-          src: "@/assets/images/2_2.jpg"
-        },
-        {
-          id: 4,
-          name: "Jakieś tam wyznanie",
-          size: "big",
-          src: "@/assets/images/2_2.jpg"
-        }
-      ];
+    ...mapGetters({
+      getConfessions: "Confessions/getConfessions"
+    })
+  },
+  methods: {
+    showConfessionPreview(id) {
+      this.preview.id = id;
+      this.$refs.confessionPreview.loadPreview();
+      this.$refs.confessionPreview.showConfessionPreview();
+    },
+    toggleConfessionsPreview() {
+      this.$refs.confessionPreview.toggleConfessionPreview();
     }
-  }
+  },
+  emits: ["confession-preview"]
 };
 </script>
 
@@ -146,7 +64,7 @@ export default {
 .confessions-grid {
   width: 100%;
   display: grid;
-
+  margin-top: 24px;
   grid-template-columns: repeat(3, 1fr);
 
   @media (min-width: $breakpoint-sm) {
@@ -159,6 +77,10 @@ export default {
   grid-gap: 12px;
   grid-auto-rows: auto;
   grid-auto-flow: dense;
+  &__container {
+    width: 100%;
+  }
+
   &__item {
     background-color: $lightGray;
     position: relative;

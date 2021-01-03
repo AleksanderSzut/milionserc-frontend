@@ -57,19 +57,10 @@
             <img src="@/assets/icons/lupa.svg" class="second" />
           </div>
           <div class="main-section--confessions__header__search-container">
-            <input class="" placeholder="Szukaj..." />
+            <confessions-search />
           </div>
         </div>
       </header>
-      <ConfessionPreview
-        class="main-section--confessions__preview"
-        v-if="preview.active"
-        ref="confessionsPreview"
-        :name="preview.name"
-        :header="preview.header"
-        :images-url="preview.imagesUrl"
-        :description="preview.description"
-      />
       <ConfessionsGrid />
     </section>
   </main>
@@ -77,29 +68,10 @@
 
 <script>
 import ConfessionsGrid from "@/components/layout/ConfessionsGrid";
-import ConfessionPreview from "@/components/layout/ConfessionPreview";
+import ConfessionsSearch from "@/components/layout/ConfessionsSearch";
 export default {
   name: "Book",
-  components: { ConfessionPreview, ConfessionsGrid },
-  data() {
-    return {
-      preview: {
-        active: true,
-        header: "Wyznanie miłości",
-        description:
-          "Arek jesteś moim spełnieniem marzeń, najlepszym przyjacielem i osobą, na którą zawsze mogę liczyć, Kocham Cię!",
-        imagesUrl: [
-          "https://images.pexels.com/photos/3693039/pexels-photo-3693039.jpeg?cs=srgb&dl=pexels-cottonbro-3693039.jpg&fm=jpg",
-          "https://images.pexels.com/photos/3875200/pexels-photo-3875200.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-3875200.jpg&fm=jpg"
-        ]
-      }
-    };
-  },
-  methods: {
-    toggleConfessionsPreview() {
-      this.$refs.confessionsPreview.toggleConfessionPreview();
-    }
-  }
+  components: { ConfessionsSearch, ConfessionsGrid }
 };
 </script>
 
@@ -157,14 +129,7 @@ img {
       justify-content: center;
       display: flex;
       width: 100%;
-      &__search-container {
-        margin-bottom: 24px;
-        input {
-          height: 24px;
-          width: 70%;
-          border-style: none none solid none;
-        }
-      }
+
       &__search-button {
         text-transform: uppercase;
         right: 0;
