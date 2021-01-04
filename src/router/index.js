@@ -3,6 +3,7 @@ import Home from "@/views/Home.vue";
 import HowThisWork from "@/views/HowThisWork.vue";
 import Book from "@/views/Book";
 import JoinUs from "@/views/JoinUs";
+import Confession from "@/views/Confession";
 
 const routes = [
   {
@@ -33,6 +34,12 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: JoinUs
+  },
+  {
+    path: "/wyznanie/:uuid/:secretKey",
+    name: "Confession",
+    component: Confession,
+    meta: { hideNavigation: true, backgroundColorBlack: true, onePage: true }
   }
 ];
 

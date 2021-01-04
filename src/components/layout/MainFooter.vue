@@ -1,5 +1,10 @@
 <template>
   <footer class="main-footer">
+    <div class="main-footer__logo" v-if="hideNavigation">
+      <router-link to="/" tag="a" class="main-header__logo">
+        <img alt="Milionserc" src="../../assets/logo.svg" />
+      </router-link>
+    </div>
     <nav class="main-footer__nav">
       <router-link class="main-footer__nav__item" to="/pytania-i-odpowiedzi">
         Pytania i odpowiedzi
@@ -21,7 +26,13 @@
 
 <script>
 export default {
-  name: "MainFooter"
+  name: "MainFooter",
+  props: {
+    hideNavigation: {
+      type: Boolean,
+      default: false
+    }
+  }
 };
 </script>
 
@@ -36,6 +47,12 @@ export default {
   padding: 20px 0;
   margin-top: 60px;
   line-height: 50px;
+  &__logo {
+    height: 50px;
+    img {
+      height: 50px;
+    }
+  }
   &__nav {
     @include wrapper();
     margin: 0 auto;

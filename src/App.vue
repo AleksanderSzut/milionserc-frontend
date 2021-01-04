@@ -1,11 +1,20 @@
 <template>
-  <main-header />
-  <router-view v-slot="slotProps">
-    <transition name="fade" appear mode="out-in">
-      <component :is="slotProps.Component"></component>
-    </transition>
-  </router-view>
-  <main-footer />
+  <div
+    :class="{
+      'hide-navigation': $route.meta.hideNavigation,
+      'one-page': $route.meta.onePage,
+      'background-color-black': $route.meta.backgroundColorBlack
+    }"
+    id="main-app"
+  >
+    <main-header v-if="!$route.meta.hideNavigation" />
+    <router-view v-slot="slotProps">
+      <transition name="fade" appear mode="out-in">
+        <component :is="slotProps.Component"></component>
+      </transition>
+    </router-view>
+    <main-footer :hideNavigation="$route.meta.hideNavigation" />
+  </div>
 </template>
 
 <script>
@@ -30,12 +39,26 @@ export default {
   opacity: 0;
   filter: blur(10px);
 }
+#main-app {
+  padding-top: 80px;
+  min-height: 100vh;
+
+  &.hide-navigation {
+    padding-top: 0;
+  }
+  &.background-color-black {
+    background-color: black;
+  }
+  &.one-page {
+    display: grid;
+    grid-template-rows: auto min-content;
+  }
+}
 #app {
   font-family: "Montserrat", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  padding-top: 80px;
   color: #2c3e50;
 }
 
