@@ -53,15 +53,12 @@
       <header class=" main-section--confessions__header">
         <div>
           <h3>Wpisy dodane do księgi miliona serc</h3>
-          <div class="main-section--confessions__header__search-button">
-            <img src="@/assets/icons/lupa.svg" class="second" />
-          </div>
           <div class="main-section--confessions__header__search-container">
-            <confessions-search />
+            <confessions-search @confession-preview="ConfessionPreview" />
           </div>
         </div>
       </header>
-      <ConfessionsGrid />
+      <ConfessionsGrid ref="ConfessionPreview" />
     </section>
   </main>
 </template>
@@ -71,7 +68,12 @@ import ConfessionsGrid from "@/components/layout/ConfessionsGrid";
 import ConfessionsSearch from "@/components/layout/ConfessionsSearch";
 export default {
   name: "Book",
-  components: { ConfessionsSearch, ConfessionsGrid }
+  components: { ConfessionsSearch, ConfessionsGrid },
+  methods: {
+    ConfessionPreview(id) {
+      this.$refs.ConfessionPreview.showConfessionPreview(id);
+    }
+  }
 };
 </script>
 

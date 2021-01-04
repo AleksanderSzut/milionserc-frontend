@@ -200,13 +200,32 @@
               </h5>
             </header>
             <section class="summary__shipping-data__form">
-              <PaymentDataCompany v-if="companyData" />
-              <PaymentDataIndividual v-else />
+              <ShippingData />
               <small class="summary__payment-data__form__legend">
                 * pole obowiązkowe
               </small>
             </section>
           </div>
+          <section class="summary__submit">
+            <div class="summary__submit__checkbox">
+              <label>
+                <input type="checkbox" />
+                <small>
+                  Twoje dane osobowe będą użyte do przetworzenia twojego
+                  zamówienia, obsługi twojej wizytki na naszej stronie oraz dla
+                  innych celków o których mówi nasza
+                  <router-link to="/polityka-prywatnosci">
+                    polityka prywatności
+                  </router-link>
+                  oraz
+                  <router-link to="/regulamin"> regulamin </router-link>
+                </small>
+              </label>
+            </div>
+            <golden-button class="summary__submit__button">
+              Kupuje i płacę
+            </golden-button>
+          </section>
         </div>
         <div v-else>
           Nie wybrano żadnego pakietu.
@@ -220,6 +239,8 @@
 import Package from "@/components/layout/Package";
 import PaymentDataCompany from "@/components/layout/form/PaymentDataCompany";
 import PaymentDataIndividual from "@/components/layout/form/PaymentDataIndividual";
+import ShippingData from "@/components/layout/form/ShippingData";
+import GoldenButton from "@/components/layout/GoldenButton";
 //
 // import { Form, Field } from "vee-validate";
 // import * as Yup from "yup";
@@ -227,6 +248,8 @@ import PaymentDataIndividual from "@/components/layout/form/PaymentDataIndividua
 export default {
   name: "JoinUs",
   components: {
+    GoldenButton,
+    ShippingData,
     PaymentDataIndividual,
     PaymentDataCompany,
     Package /*Form, Field*/
@@ -318,7 +341,7 @@ export default {
       totalPrice: 0,
 
       expandBasket: false,
-      expandPaymentData: false,
+      expandPaymentData: true,
       expandShippingData: false,
       companyData: false
     };
@@ -532,6 +555,31 @@ img {
       }
     }
 
+    &__submit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      @media (min-width: $breakpoint-md) {
+        flex-direction: row;
+      }
+      &__checkbox {
+        margin-bottom: 18px;
+        @media (min-width: $breakpoint-md) {
+          flex-direction: row;
+          margin: 0 24px 0 0;
+        }
+        label {
+          display: flex;
+        }
+        input {
+          margin-right: 8px;
+        }
+      }
+      &__button {
+        width: min-content;
+        white-space: nowrap;
+      }
+    }
     &__total {
       width: 100%;
       text-transform: uppercase;
@@ -826,6 +874,9 @@ img {
       }
     }
     &__shipping-data {
+      &__form {
+        margin-top: 12px;
+      }
       margin: 24px 0;
     }
   }

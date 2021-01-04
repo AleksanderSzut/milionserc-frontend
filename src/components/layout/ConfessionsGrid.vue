@@ -51,8 +51,7 @@ export default {
     toggleConfessionsPreview() {
       this.$refs.confessionPreview.toggleConfessionPreview();
     }
-  },
-  emits: ["confession-preview"]
+  }
 };
 </script>
 
