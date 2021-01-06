@@ -134,7 +134,6 @@ export default {
   &__slider {
     grid-area: slider;
     width: 100%;
-    min-width: 300px;
   }
   &__close {
     width: 30px;

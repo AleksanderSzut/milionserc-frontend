@@ -185,7 +185,9 @@ img {
       text-align: left;
     }
     img {
-      min-width: 300px;
+      @media (min-width: $breakpoint-sm) {
+        min-width: 300px;
+      }
       max-width: 100%;
     }
   }

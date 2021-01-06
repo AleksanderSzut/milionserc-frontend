@@ -161,7 +161,7 @@ img {
 
   &--book {
     &__info {
-      padding: 32px 24px;
+      padding: 32px 0;
       box-sizing: border-box;
       display: grid;
       width: 100%;
@@ -199,12 +199,14 @@ img {
         display: flex;
         text-align: left;
         line-height: 140%;
+        align-items: flex-start;
         p {
           margin-top: 0;
         }
         img {
           margin-right: 12px;
-          height: 80px;
+          width: 80px;
+          max-width: 20vw;
         }
       }
     }
