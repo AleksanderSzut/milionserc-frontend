@@ -30,6 +30,7 @@ export default {
   },
   updated() {
     console.log(this.$route.params);
+    console.log(this.$route.params.code === `IdaIdaMilionserc98`);
     if (this.$route.params.code === `IdaIdaMilionserc98`) {
       window.localStorage.setItem("active", "true");
       this.permActive = true;
