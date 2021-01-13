@@ -4,12 +4,18 @@ import HowThisWork from "@/views/HowThisWork.vue";
 import Book from "@/views/Book";
 import JoinUs from "@/views/JoinUs";
 import Confession from "@/views/Confession";
+import Code from "@/views/Code";
 
 const routes = [
   {
     path: "/",
     name: "Home",
     component: Home
+  },
+  {
+    path: "/code/:code",
+    name: "Code",
+    component: Code
   },
   {
     path: "/jak-to-dziala",
