@@ -7,7 +7,6 @@
       'background-color-black': $route.meta.backgroundColorBlack
     }"
     id="main-app"
-    v-if="this.$route.params.code === `IdaIdaMilionserc98` || permActive"
   >
     <main-header v-if="!$route.meta.hideNavigation" />
     <router-view v-slot="slotProps">
@@ -23,21 +22,6 @@
 import MainHeader from "@/components/layout/MainHeader";
 import MainFooter from "@/components/layout/MainFooter";
 export default {
-  data: () => {
-    return {
-      permActive: false
-    };
-  },
-  updated() {
-    if (this.$route.params.code === `IdaIdaMilionserc98`) {
-      window.localStorage.setItem("active", "true");
-      this.permActive = true;
-      this.$router.push("/");
-    }
-    if (window.localStorage.getItem("active") === "true") {
-      this.permActive = true;
-    }
-  },
   components: { MainFooter, MainHeader }
 };
 </script>
