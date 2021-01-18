@@ -4,6 +4,8 @@ import HowThisWork from "@/views/HowThisWork.vue";
 import Book from "@/views/Book";
 import JoinUs from "@/views/JoinUs";
 import Confession from "@/views/Confession";
+import ThanksForPayment from "@/views/ThanksForPayment";
+import CreateConfession from "@/views/CreateConfession";
 
 const routes = [
   {
@@ -34,6 +36,23 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: JoinUs
+  },
+  {
+    path: "/dziekujemy-za-platnosc",
+    name: "ThankForPayment",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: ThanksForPayment,
+    meta: { onePage: true }
+  },
+  {
+    path: "/stworz-wyznanie/:uuid:/:secretKey",
+    name: "CreateConfession",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: CreateConfession
   },
   {
     path: "/wyznanie/:uuid/:secretKey",

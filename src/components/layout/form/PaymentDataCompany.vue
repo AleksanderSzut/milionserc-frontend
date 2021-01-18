@@ -1,13 +1,10 @@
 <template>
-  <Form
-    v-slot="{ errors }"
-    @submit="submit"
-    :validation-schema="schema"
-    class="form"
-  >
+  <div class="form">
     <InputField
       class="form__item form__item--wide"
-      name="companyName"
+      name="fullName"
+      billingAddress
+      array="billingAddress"
       placeholder="Nazwa firmy *"
       :errors="errors"
       type="text"
@@ -16,12 +13,14 @@
       class="form__item"
       name="taxId"
       placeholder="NIP *"
+      array="billingAddress"
       :errors="errors"
       type="text"
     />
     <InputField
       class="form__item form__item--wide"
       name="streetAddress"
+      array="billingAddress"
       placeholder="Nazwa ulicy, numer budynku/lokalu *"
       :errors="errors"
       type="text"
@@ -29,6 +28,7 @@
     <InputField
       class="form__item"
       name="country"
+      array="billingAddress"
       placeholder="Kraj *"
       :errors="errors"
       type="text"
@@ -37,6 +37,7 @@
       class="form__item"
       name="region"
       placeholder="Region *"
+      array="billingAddress"
       :errors="errors"
       type="text"
     />
@@ -44,6 +45,7 @@
       class="form__item"
       name="city"
       placeholder="Miasto *"
+      array="billingAddress"
       :errors="errors"
       type="text"
     />
@@ -53,10 +55,12 @@
       placeholder="Kod pocztowy *"
       :errors="errors"
       type="text"
+      array="billingAddress"
     />
     <InputField
       class="form__item"
-      name="tel"
+      name="phoneNumber"
+      array="billingAddress"
       placeholder="Telefon *"
       :errors="errors"
       type="tel"
@@ -65,6 +69,7 @@
       class="form__item form__item--textarea"
       name="orderRemark"
       as="textarea"
+      array="billingAddress"
       placeholder="Uwagi do zamówienia(opcjonalne)"
       :errors="errors"
       type="tel"
@@ -73,39 +78,28 @@
     <InputField
       class="form__item"
       name="email"
+      array="billingAddress"
       placeholder="E-mail *"
       :errors="errors"
       type="email"
     />
-  </Form>
+  </div>
 </template>
 
 <script>
-import { Form } from "vee-validate";
-import * as yup from "yup";
 import InputField from "@/components/layout/form/item/InputField";
 
 export default {
-  components: { InputField, Form },
-  data: () => {
-    const schema = yup.object().shape({
-      email: yup
-        .string()
-        .required()
-        .email(),
-      phone: yup
-        .string()
-        .required()
-        .min(6)
-    });
-
-    return {
-      schema
-    };
-  },
+  components: { InputField },
   methods: {
     submit: value => {
       console.log(value);
+    }
+  },
+  props: {
+    errors: {
+      type: Object,
+      required: true
     }
   },
   name: "PaymentDataCompany"

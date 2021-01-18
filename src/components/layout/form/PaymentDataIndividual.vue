@@ -1,12 +1,8 @@
 <template>
-  <Form
-    v-slot="{ errors }"
-    @submit="submit"
-    :validation-schema="schema"
-    class="form"
-  >
+  <div class="form">
     <InputField
       class="form__item form__item form__item"
+      array="billingAddress"
       name="fullName"
       placeholder="Imie i Nazwisko *"
       :errors="errors"
@@ -14,6 +10,7 @@
     />
     <InputField
       class="form__item"
+      array="billingAddress"
       name="city"
       placeholder="Miasto *"
       :errors="errors"
@@ -21,6 +18,7 @@
     />
     <InputField
       class="form__item"
+      array="billingAddress"
       name="country"
       placeholder="Kraj *"
       :errors="errors"
@@ -28,6 +26,7 @@
     />
     <InputField
       class="form__item"
+      array="billingAddress"
       name="region"
       placeholder="Region *"
       :errors="errors"
@@ -35,6 +34,7 @@
     />
     <InputField
       class="form__item form__item--small-double-row"
+      array="billingAddress"
       name="streetAddress"
       placeholder="Nazwa ulicy, numer budynku/lokalu *"
       as="textarea"
@@ -43,6 +43,7 @@
     />
     <InputField
       class="form__item"
+      array="billingAddress"
       name="zipCode"
       placeholder="Kod pocztowy *"
       :errors="errors"
@@ -50,6 +51,7 @@
     />
     <InputField
       class="form__item form__item--textarea form__item--small-double-row"
+      array="billingAddress"
       name="orderRemark"
       as="textarea"
       placeholder="Uwagi do zamówienia(opcjonalne)"
@@ -59,47 +61,31 @@
 
     <InputField
       class="form__item"
-      name="tel"
+      array="billingAddress"
+      name="phoneNumber"
       placeholder="Telefon *"
       :errors="errors"
       type="tel"
     />
     <InputField
       class="form__item"
+      array="billingAddress"
       name="email"
       placeholder="E-mail *"
       :errors="errors"
       type="email"
     />
-  </Form>
+  </div>
 </template>
 
 <script>
-import { Form } from "vee-validate";
-import * as yup from "yup";
 import InputField from "@/components/layout/form/item/InputField";
 
 export default {
-  components: { InputField, Form },
-  data: () => {
-    const schema = yup.object().shape({
-      email: yup
-        .string()
-        .required()
-        .email(),
-      phone: yup
-        .string()
-        .required()
-        .min(6)
-    });
-
-    return {
-      schema
-    };
-  },
-  methods: {
-    submit: value => {
-      console.log(value);
+  components: { InputField },
+  props: {
+    errors: {
+      type: Object
     }
   },
   name: "PaymentDataIndividual"

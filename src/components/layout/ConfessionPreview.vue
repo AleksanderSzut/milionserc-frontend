@@ -1,9 +1,8 @@
 <template>
   <section class="confession-preview" :class="{ 'is-visible': isVisible }">
-    <h4 class="confession-preview__header">{{ header }}</h4>
+    <h4 class="confession-preview__header">{{ title }}</h4>
     <article class="confession-preview__content">
-      <p>{{ description }}</p>
-      <p>{{ name }}</p>
+      <p>{{ content }}</p>
     </article>
     <nav class="confession-preview__nav">
       <div class="confession-preview__nav__item" @click="previousConfession()">
@@ -18,7 +17,11 @@
       class="confession-preview__close"
       @click="toggleConfessionPreview"
     ></div>
-    <ImgSlider class="confession-preview__slider" :images-url="imagesUrl" />
+    <ImgSlider
+      class="confession-preview__slider"
+      :images-url="images"
+      :video-url="videos"
+    />
   </section>
 </template>
 
@@ -37,10 +40,10 @@ export default {
   data() {
     return {
       isVisible: false,
-      header: null,
-      description: null,
-      name: null,
-      imagesUrl: [],
+      title: null,
+      content: null,
+      images: [],
+      videos: [],
       currentId: null
     };
   },
@@ -58,10 +61,10 @@ export default {
   },
   methods: {
     setData(payload) {
-      this.header = payload.header;
-      this.description = payload.description;
-      this.name = payload.name;
-      this.imagesUrl = payload.imagesUrl;
+      this.title = payload.title;
+      this.content = payload.content;
+      this.images = payload.images;
+      this.videos = payload.videos;
       this.currentId = payload.id;
     },
     showConfessionPreview() {

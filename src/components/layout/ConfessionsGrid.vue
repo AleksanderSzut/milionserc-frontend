@@ -1,5 +1,5 @@
 <template>
-  <div class="confessions-grid__container">
+  <div class="confessions-grid__container" v-if="!loading">
     <ConfessionPreview
       class="main-section--confessions__preview"
       ref="confessionPreview"
@@ -17,14 +17,14 @@
         "
         @click="showConfessionPreview(item.id)"
       >
-        <img :src="item.imagesUrl[0]" :alt="item.name" />
+        <img :src="item.images[0]" :alt="item.name" />
       </div>
     </section>
   </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import ConfessionPreview from "@/components/layout/ConfessionPreview";
 
 export default {
@@ -32,10 +32,17 @@ export default {
   components: { ConfessionPreview },
   data() {
     return {
+      loading: true,
       preview: {
         id: null
       }
     };
+  },
+  async created() {
+    this.loading = true;
+    await this.loadConfessions();
+    console.log(this.getConfessions);
+    this.loading = false;
   },
   computed: {
     ...mapGetters({
@@ -50,7 +57,10 @@ export default {
     },
     toggleConfessionsPreview() {
       this.$refs.confessionPreview.toggleConfessionPreview();
-    }
+    },
+    ...mapActions({
+      loadConfessions: "Confessions/loadConfessions"
+    })
   }
 };
 </script>

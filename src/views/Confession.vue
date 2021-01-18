@@ -39,7 +39,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getConfessionById: "Confessions/getConfessionById"
+      getConfessionById: "Confession/getConfessionById"
     })
   },
   created() {

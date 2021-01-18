@@ -1,170 +1,69 @@
+import { ApiFactory } from "@/api";
+import router from "@/router";
+const ConfessionApi = ApiFactory.get("Confession");
+
 export default {
   namespaced: true,
   state: {
-    confessions: [
-      {
-        id: 1,
-        name: "Jakieś tam wyznanie",
-        size: "big",
-        header: "Wyznanie miłości",
-        description:
-          "Adam jesteś moim spełnieniem marzeń, najlepszym przyjacielem i osobą, na którą zawsze mogę liczyć, Kocham Cię!",
-
-        imagesUrl: [
-          "https://images.pexels.com/photos/3693039/pexels-photo-3693039.jpeg?cs=srgb&dl=pexels-cottonbro-3693039.jpg&fm=jpg",
-          "https://images.pexels.com/photos/3875200/pexels-photo-3875200.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-3875200.jpg&fm=jpg"
-        ]
-      },
-      {
-        id: 2,
-        name: "Jakieś tam wyznanie",
-        size: "small",
-        header: "Wyznanie miłości",
-        description:
-          "Arek jesteś moim spełnieniem marzeń, najlepszym przyjacielem i osobą, na którą zawsze mogę liczyć, Kocham Cię!",
-
-        imagesUrl: [
-          "https://images.pexels.com/photos/3693039/pexels-photo-3693039.jpeg?cs=srgb&dl=pexels-cottonbro-3693039.jpg&fm=jpg",
-          "https://images.pexels.com/photos/3875200/pexels-photo-3875200.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-3875200.jpg&fm=jpg"
-        ]
-      },
-      {
-        id: 3,
-        name: "Jakieś tam wyznanie",
-        size: "small",
-        header: "Wyznanie miłości",
-        description:
-          "Arek jesteś moim spełnieniem marzeń, najlepszym przyjacielem i osobą, na którą zawsze mogę liczyć, Kocham Cię!",
-
-        imagesUrl: [
-          "https://images.pexels.com/photos/3693039/pexels-photo-3693039.jpeg?cs=srgb&dl=pexels-cottonbro-3693039.jpg&fm=jpg",
-          "https://images.pexels.com/photos/3875200/pexels-photo-3875200.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-3875200.jpg&fm=jpg"
-        ]
-      },
-      {
-        id: 4,
-        name: "Jakieś tam wyznanie",
-        size: "big",
-        header: "Wyznanie miłości",
-        description:
-          "Arek jesteś moim spełnieniem marzeń, najlepszym przyjacielem i osobą, na którą zawsze mogę liczyć, Kocham Cię!",
-
-        imagesUrl: [
-          "https://images.pexels.com/photos/3693039/pexels-photo-3693039.jpeg?cs=srgb&dl=pexels-cottonbro-3693039.jpg&fm=jpg",
-          "https://images.pexels.com/photos/3875200/pexels-photo-3875200.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-3875200.jpg&fm=jpg"
-        ]
-      },
-      {
-        id: 5,
-        name: "Jakieś tam wyznanie",
-        size: "big",
-        header: "Wyznanie miłości",
-        description:
-          "Arek jesteś moim spełnieniem marzeń, najlepszym przyjacielem i osobą, na którą zawsze mogę liczyć, Kocham Cię!",
-
-        imagesUrl: [
-          "https://images.pexels.com/photos/3693039/pexels-photo-3693039.jpeg?cs=srgb&dl=pexels-cottonbro-3693039.jpg&fm=jpg",
-          "https://images.pexels.com/photos/3875200/pexels-photo-3875200.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-3875200.jpg&fm=jpg"
-        ]
-      },
-      {
-        id: 6,
-        name: "Jakieś tam wyznanie",
-        size: "small",
-        header: "Wyznanie miłości",
-        description:
-          "Arek jesteś moim spełnieniem marzeń, najlepszym przyjacielem i osobą, na którą zawsze mogę liczyć, Kocham Cię!",
-
-        imagesUrl: [
-          "https://images.pexels.com/photos/3693039/pexels-photo-3693039.jpeg?cs=srgb&dl=pexels-cottonbro-3693039.jpg&fm=jpg",
-          "https://images.pexels.com/photos/3875200/pexels-photo-3875200.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-3875200.jpg&fm=jpg"
-        ]
-      },
-      {
-        id: 7,
-        name: "Jakieś tam wyznanie",
-        size: "big",
-        header: "Wyznanie miłości",
-        description:
-          "Arek jesteś moim spełnieniem marzeń, najlepszym przyjacielem i osobą, na którą zawsze mogę liczyć, Kocham Cię!",
-
-        imagesUrl: [
-          "https://images.pexels.com/photos/3693039/pexels-photo-3693039.jpeg?cs=srgb&dl=pexels-cottonbro-3693039.jpg&fm=jpg",
-          "https://images.pexels.com/photos/3875200/pexels-photo-3875200.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-3875200.jpg&fm=jpg"
-        ]
-      },
-      {
-        id: 8,
-        name: "Jakieś tam wyznanie",
-        size: "small",
-        header: "Wyznanie miłości",
-        description:
-          "Arek jesteś moim spełnieniem marzeń, najlepszym przyjacielem i osobą, na którą zawsze mogę liczyć, Kocham Cię!",
-
-        imagesUrl: [
-          "https://images.pexels.com/photos/3693039/pexels-photo-3693039.jpeg?cs=srgb&dl=pexels-cottonbro-3693039.jpg&fm=jpg",
-          "https://images.pexels.com/photos/3875200/pexels-photo-3875200.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-3875200.jpg&fm=jpg"
-        ]
-      },
-      {
-        id: 9,
-        name: "Jakieś tam wyznanie",
-        size: "big",
-        header: "Wyznanie miłości",
-        description:
-          "Arek jesteś moim spełnieniem marzeń, najlepszym przyjacielem i osobą, na którą zawsze mogę liczyć, Kocham Cię!",
-
-        imagesUrl: [
-          "https://images.pexels.com/photos/3693039/pexels-photo-3693039.jpeg?cs=srgb&dl=pexels-cottonbro-3693039.jpg&fm=jpg",
-          "https://images.pexels.com/photos/3875200/pexels-photo-3875200.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-3875200.jpg&fm=jpg"
-        ]
-      },
-      {
-        id: 11,
-        name: "Jakieś tam wyznanie",
-        size: "small",
-        header: "Wyznanie miłości",
-        description:
-          "Arek jesteś moim spełnieniem marzeń, najlepszym przyjacielem i osobą, na którą zawsze mogę liczyć, Kocham Cię!",
-
-        imagesUrl: [
-          "https://images.pexels.com/photos/3693039/pexels-photo-3693039.jpeg?cs=srgb&dl=pexels-cottonbro-3693039.jpg&fm=jpg",
-          "https://images.pexels.com/photos/3875200/pexels-photo-3875200.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-3875200.jpg&fm=jpg"
-        ]
-      },
-      {
-        id: 12,
-        name: "Jakieś tam wyznanie",
-        size: "big",
-        header: "Wyznanie miłości",
-        description:
-          "Arek jesteś moim spełnieniem marzeń, najlepszym przyjacielem i osobą, na którą zawsze mogę liczyć, Kocham Cię!",
-
-        imagesUrl: [
-          "https://images.pexels.com/photos/3693039/pexels-photo-3693039.jpeg?cs=srgb&dl=pexels-cottonbro-3693039.jpg&fm=jpg",
-          "https://images.pexels.com/photos/3875200/pexels-photo-3875200.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-3875200.jpg&fm=jpg"
-        ]
-      },
-      {
-        id: 14,
-        name: "Jakieś tam wyznanie",
-        size: "small",
-        header: "Wyznanie miłości",
-        description:
-          "Arek jesteś moim spełnieniem marzeń, najlepszym przyjacielem i osobą, na którą zawsze mogę liczyć, Kocham Cię!",
-
-        imagesUrl: [
-          "https://images.pexels.com/photos/3693039/pexels-photo-3693039.jpeg?cs=srgb&dl=pexels-cottonbro-3693039.jpg&fm=jpg",
-          "https://images.pexels.com/photos/3875200/pexels-photo-3875200.jpeg?cs=srgb&dl=pexels-polina-tankilevitch-3875200.jpg&fm=jpg"
-        ]
-      }
-    ]
+    confessions: [],
+    currentOffset: 0,
+    perPage: 24,
+    confession: {
+      id: null,
+      uuid: null,
+      status: null,
+      title: null,
+      content: null,
+      package_id: null,
+      public: null,
+      access_code: null
+    }
   },
   mutations: {},
   actions: {
-    async confessionsSearch({ state } /*, { searchValue }*/) {
-      return state.confessions;
+    async loadConfessions({ state }) {
+      let {
+        data: { data }
+      } = await ConfessionApi.getConfessions(
+        state.perPage,
+        state.currentOffset
+      );
+      state.confessions = state.confessions.concat(data.confessions);
+    },
+
+    async loadMoreConfessions({ state, commit }) {
+      state.currentOffset++;
+      commit("loadConfessions");
+    },
+
+    async confessionsSearch({ perPage, query }) {
+      let {
+        data: { data }
+      } = await ConfessionApi.getConfessions(perPage, 0, query);
+      return data.confessions;
+    },
+    async getConfession({ state }, { uuid, token }) {
+      console.log(state);
+      await ConfessionApi.getConfession(uuid, token)
+        .then(async response => {
+          if (response.data[0].status === 0)
+            state.confession = response.data[0];
+          else
+            await router.replace({
+              name: "Confession",
+              params: {
+                uuid,
+                secretKey: token
+              }
+            });
+        })
+        .catch(async () => {
+          await router.replace({
+            name: "Home"
+          });
+        });
     }
+    // async createConfession({ uuid, token, title, content, images, videos }) {}
   },
   modules: {},
   getters: {

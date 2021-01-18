@@ -1,17 +1,24 @@
 <template>
   <section class="img-slider">
     <div>
-      <img
-        v-for="(item, index) in imagesUrl"
-        class="img-slider__img"
-        :src="item"
-        :key="index"
-        :class="{ active: currentImg === index }"
-      />
+      <template v-for="(item, index) in media" :key="index">
+        <img
+          class="img-slider__media"
+          :src="item.url"
+          v-if="item.type === `image`"
+          :class="{ active: currentImg === index }"
+        />
+        <video-player
+          class="img-slider__media"
+          :url="item.url"
+          v-if="item.type === `video`"
+          :class="{ active: currentImg === index }"
+        />
+      </template>
     </div>
     <div class="img-slider__dots">
       <div
-        v-for="(item, index) in imagesUrl"
+        v-for="(item, index) in media"
         :key="index"
         :class="
           modifierClass(
@@ -40,8 +47,10 @@
 </template>
 
 <script>
+import VideoPlayer from "@/components/layout/VideoPlayer";
 export default {
   name: "ImgSlider",
+  components: { VideoPlayer },
   data() {
     return { currentImg: 0 };
   },
@@ -49,21 +58,38 @@ export default {
     modifierClass() {
       return (mainClass, modifier, boolean) =>
         mainClass + " " + (boolean ? `${mainClass}--${modifier}` : mainClass);
+    },
+    media() {
+      let media = [];
+
+      this.imagesUrl.forEach(value => {
+        media.push({ url: value, type: "image" });
+      });
+      this.videoUrl.forEach(value => {
+        media.push({ url: value, type: "video" });
+      });
+
+      return media;
     }
   },
   methods: {
     nextPage() {
-      if (this.currentImg === this.imagesUrl.length - 1) this.currentImg = 0;
+      if (this.currentImg === this.media.length - 1) this.currentImg = 0;
       else this.currentImg++;
     },
 
     previousPage() {
-      if (this.currentImg === 0) this.currentImg = this.imagesUrl.length - 1;
+      if (this.currentImg === 0) this.currentImg = this.media.length - 1;
       else this.currentImg--;
     }
   },
   props: {
-    imagesUrl: {}
+    imagesUrl: {
+      type: Array
+    },
+    videoUrl: {
+      type: Array
+    }
   }
 };
 </script>
@@ -72,7 +98,7 @@ export default {
 .img-slider {
   position: relative;
   padding-top: calc(2 / 3 * 100%);
-  &__img {
+  &__media {
     width: 100%;
     height: 100%;
     object-fit: cover;

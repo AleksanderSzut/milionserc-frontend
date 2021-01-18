@@ -1,5 +1,12 @@
 <template>
   <main class="join-us-main">
+    <div :class="{ active: getModal.active }" class="modal">
+      <h3>{{ getModal.label }}</h3>
+      <div class="modal__close" @click="getModal.active = false"></div>
+      <a :href="getModal.button.url">
+        <golden-button>{{ getModal.button.label }}</golden-button>
+      </a>
+    </div>
     <section class="main-section main-section--header">
       <h1>Wybierz sposób,w jaki chcesz wyrazić swoje uczucia</h1>
     </section>
@@ -56,7 +63,12 @@
     </section>
     <section class="main-section main-section--no-line main-section--summary">
       <h4>Podsumowanie</h4>
-      <form class="main-section--summary__wrapper summary">
+      <Form
+        @submit="onSubmit"
+        :validation-schema="schema"
+        v-slot="{ errors }"
+        class="main-section--summary__wrapper summary"
+      >
         <div v-if="Object.keys(basket).length > 0">
           <h4>Koszyk</h4>
           <div class="summary__basket" :class="{ 'is-expand': expandBasket }">
@@ -126,7 +138,8 @@
                       v-model="value.additional.box.active"
                     />
                     <div>
-                      Dodaj antyramę - {{ value.additional.box.price }}&nbsp;PLN
+                      Dodaj antyramę -
+                      {{ value.additional.box.price }}&nbsp;PLN
                     </div>
                   </label>
                   <label>
@@ -177,8 +190,8 @@
               </span>
             </div>
             <section class="summary__payment-data__form">
-              <PaymentDataCompany v-if="companyData" />
-              <PaymentDataIndividual v-else />
+              <PaymentDataCompany v-if="companyData" :errors="errors" />
+              <PaymentDataIndividual v-else :errors="errors" />
               <small class="summary__payment-data__form__legend">
                 * pole obowiązkowe
               </small>
@@ -200,7 +213,7 @@
               </h5>
             </header>
             <section class="summary__shipping-data__form">
-              <ShippingData />
+              <ShippingData :errors="errors" />
               <small class="summary__payment-data__form__legend">
                 * pole obowiązkowe
               </small>
@@ -209,7 +222,7 @@
           <section class="summary__submit">
             <div class="summary__submit__checkbox">
               <label>
-                <input type="checkbox" />
+                <Field as="input" name="terms" type="checkbox" value="true" />
                 <small>
                   Twoje dane osobowe będą użyte do przetworzenia twojego
                   zamówienia, obsługi twojej wizytki na naszej stronie oraz dla
@@ -226,11 +239,29 @@
               Kupuje i płacę
             </golden-button>
           </section>
+          <div class="summary__errors">
+            <h5
+              v-if="
+                Object.values(errors).length > 0 ||
+                  Object.values(getError).length > 0
+              "
+            >
+              Błędy walidacji
+            </h5>
+            <ul>
+              <li v-for="(value, index) in errors" :key="index">
+                {{ value }}
+              </li>
+              <li v-for="(value, index) in getError" :key="index">
+                {{ value }}
+              </li>
+            </ul>
+          </div>
         </div>
         <div v-else>
           Nie wybrano żadnego pakietu.
         </div>
-      </form>
+      </Form>
     </section>
   </main>
 </template>
@@ -241,9 +272,10 @@ import PaymentDataCompany from "@/components/layout/form/PaymentDataCompany";
 import PaymentDataIndividual from "@/components/layout/form/PaymentDataIndividual";
 import ShippingData from "@/components/layout/form/ShippingData";
 import GoldenButton from "@/components/layout/GoldenButton";
+import { Form, Field } from "vee-validate";
+import * as yup from "yup";
+import { mapActions, mapGetters } from "vuex";
 //
-// import { Form, Field } from "vee-validate";
-// import * as Yup from "yup";
 
 export default {
   name: "JoinUs",
@@ -252,41 +284,138 @@ export default {
     ShippingData,
     PaymentDataIndividual,
     PaymentDataCompany,
-    Package /*Form, Field*/
+    Package,
+    Form,
+    Field
   },
   data() {
-    /*
-    const schema = Yup.object().shape({
-      title: Yup.string().required("Title is required"),
-      firstName: Yup.string().required("First Name is required"),
-      lastName: Yup.string().required("Last name is required"),
-      dob: Yup.string()
-        .required("Date of Birth is required")
-        .matches(
-          /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/,
-          "Date of Birth must be a valid date in the format YYYY-MM-DD"
-        ),
-      email: Yup.string()
-        .required("Email is required")
-        .email("Email is invalid"),
-      password: Yup.string()
-        .min(6, "Password must be at least 6 characters")
-        .required("Password is required"),
-      confirmPassword: Yup.string()
-        .oneOf([Yup.ref("password"), null], "Passwords must match")
-        .required("Confirm Password is required"),
-      acceptTerms: Yup.string().required("Accept Ts & Cs is required")
+    let billingAddressSchema;
+    if (this.companyData)
+      billingAddressSchema = yup.object().shape({
+        email: yup
+          .string()
+          .required("Adres email jest wymagany")
+          .email("Adres email jest nie prawidłowy"),
+        phoneNumber: yup
+          .string()
+          .required("Numer telefonu jest wymagany")
+          .min(3, "Numer telefonu jest za krótki"),
+        fullName: yup.string().required("Nazwa firmy jest wymagana"),
+        city: yup.string().required("Miasto jest wymagane"),
+        country: yup
+          .string()
+          .required("Kraj jest wymagany")
+          .matches(/^[a-zA-Z]{2,}/, { message: "Błedny format kraju" }),
+        region: yup.string().required("Region jest wymagany"),
+        streetAddress: yup.string().required("Adres jest wymagany"),
+        zipCode: yup.string().required("Kod pocztowy jest wymagany"),
+        orderRemark: yup
+          .string()
+          .max(2, "Uwagi mogą mieć maksymalnie 65 tyś. znaków"),
+        taxId: yup.string().required("Numer nip jest wymagany"),
+        companyName: yup.string().required("Nazwa firmy jest wymagana")
+      });
+    else
+      billingAddressSchema = yup.object().shape({
+        email: yup
+          .string()
+          .required("Adres email jest wymagany")
+          .email("Adres email jest nie prawidłowy"),
+        phoneNumber: yup
+          .string()
+          .required("Numer telefonu jest wymagany")
+          .min(3, "Numer telefonu jest za krótki"),
+        fullName: yup
+          .string()
+          .required("Imię i nazwisko jest wymagane")
+          .matches(/^[a-zA-Z]{4,}(?: [a-zA-Z]+){0,2}$/, {
+            message: "Błędne imię i nazwisko"
+          }),
+        city: yup.string().required("Miasto jest wymagane"),
+        country: yup
+          .string()
+          .required("Kraj jest wymagany")
+          .matches(/^[a-zA-Z]{2,}/, { message: "Błedny format kraju" }),
+        region: yup.string().required("Region jest wymagany"),
+        streetAddress: yup.string().required("Adres jest wymagany"),
+        zipCode: yup.string().required("Kod pocztowy jest wymagany"),
+        orderRemark: yup
+          .string()
+          .max(2, "Uwagi mogą mieć maksymalnie 65 tyś. znaków")
+      });
+
+    const shippingAddressSchema = yup.object().shape({
+      email: yup
+        .string()
+        .required("Adres email jest wymagany")
+        .email("Adres email jest nie prawidłowy"),
+      phoneNumber: yup
+        .string()
+        .required("Numer telefonu jest wymagany")
+        .min(3, "Numer telefonu jest za krótki"),
+      name: yup
+        .string()
+        .required("Imię i nazwisko jest wymagane")
+        .matches(/^[a-zA-Z]{4,}(?: [a-zA-Z]+){0,2}$/, {
+          message: "Błędne imię i nazwisko"
+        }),
+      city: yup.string().required("Miasto jest wymagane"),
+      country: yup
+        .string()
+        .required("Kraj jest wymagany")
+        .matches(/^[a-zA-Z]{2,}/, { message: "Błedny format kraju" }),
+      region: yup.string().required("Region jest wymagany"),
+      streetAddress: yup.string().required("Adres jest wymagany"),
+      zipCode: yup.string().required("Kod pocztowy jest wymagany"),
+      orderRemark: yup
+        .string()
+        .max(2, "Uwagi mogą mieć maksymalnie 65 tyś. znaków")
     });
 
-    const onSubmit = values => {
-      // display form values on success
-      alert("SUCCESS!! :-)\n\n" + JSON.stringify(values, null, 4));
-    };*/
+    const schema = yup.object().shape({
+      billingAddress: billingAddressSchema,
+      shippingAddress: yup.lazy(() => {
+        if (this.expandShippingData) {
+          // Return our normal validation
+          return shippingAddressSchema;
+        }
+        // Otherwise, return a simple validation
+        return yup.mixed().notRequired();
+      }),
+      terms: yup
+        .boolean()
+        .required("Zaakceptuj regulamin")
+        .oneOf([true, 1], "Zaakceptuj regulamin")
+    });
+
+    const onSubmit = async values => {
+      let cartItems = [];
+
+      Object.values(this.basket).forEach(value => {
+        for (let i = 0; i < value.count; i++) {
+          let additionals = [];
+
+          Object.values(value.additional).forEach(value => {
+            if (value.active) additionals.push({ id: value.id });
+          });
+
+          let cartItem = [];
+
+          if (additionals.length === 0) cartItem = { packageId: value.id };
+          else cartItem = { packageId: value.id, additionals };
+
+          cartItems.push(cartItem);
+        }
+      });
+
+      values["cartItems"] = cartItems;
+
+      await this.order(values);
+    };
 
     return {
-      /*
       schema,
-      onSubmit,*/
+      onSubmit,
       packages: {
         1: {
           id: 1,
@@ -339,12 +468,17 @@ export default {
       },
       basket: {},
       totalPrice: 0,
-
       expandBasket: false,
       expandPaymentData: true,
       expandShippingData: false,
       companyData: false
     };
+  },
+  computed: {
+    ...mapGetters({
+      getError: "Order/getError",
+      getModal: "Order/getModal"
+    })
   },
   watch: {
     basket: {
@@ -355,6 +489,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      order: "Order/order"
+    }),
     calcTotalPrice() {
       if (Object.keys(this.basket).length > 0)
         this.totalPrice = Object.values(this.basket)
@@ -397,6 +534,63 @@ img {
   display: grid;
   @include wrapper;
   margin: 0 auto;
+}
+
+.modal {
+  pointer-events: none;
+  &.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+  &__close {
+    width: 30px;
+    justify-self: flex-end;
+    grid-area: close;
+    height: 30px;
+    border: 2px solid $colorGold;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    transition: background-color ease 0.5s;
+    cursor: pointer;
+    &::after,
+    &::before {
+      content: "";
+      display: block;
+      background-color: $colorGold;
+      width: 80%;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      height: 2px;
+      transform-origin: center;
+      transition: background-color ease 0.5s;
+    }
+    &:hover {
+      background-color: $colorGold;
+      &:after,
+      &:before {
+        background-color: white;
+      }
+    }
+    &::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+    &::before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+  }
+
+  transition: opacity ease 0.7s;
+  opacity: 0;
+  background-color: white;
+  box-shadow: 0 0 20px -4px black;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  z-index: 20;
 }
 
 .main-section {
@@ -555,6 +749,18 @@ img {
       }
     }
 
+    &__errors {
+      margin-top: 12px;
+      color: rgba(222, 0, 0, 1);
+      h5 {
+        font-size: 15px;
+        margin: 0;
+        font-weight: 500;
+      }
+      font-size: 14px;
+      font-weight: 500;
+    }
+
     &__submit {
       display: flex;
       flex-direction: column;
@@ -567,6 +773,10 @@ img {
         @media (min-width: $breakpoint-md) {
           flex-direction: row;
           margin: 0 24px 0 0;
+        }
+        a {
+          color: $colorGold;
+          text-decoration: underline;
         }
         label {
           display: flex;

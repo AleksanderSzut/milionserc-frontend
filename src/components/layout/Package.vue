@@ -60,9 +60,10 @@ export default {
         additional: {
           box: {
             active: false,
-            price: 19.99
+            price: 19.99,
+            id: 1
           },
-          packaging: { active: false, price: 9.99 }
+          packaging: { active: false, price: 9.99, id: 2 }
         }
       });
     },

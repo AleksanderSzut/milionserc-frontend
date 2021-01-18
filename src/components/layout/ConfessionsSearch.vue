@@ -24,11 +24,11 @@
           @click="previewThis(item.id)"
         >
           <div class="result-list__item__text">
-            <h5>{{ item.name }}</h5>
-            <p>{{ item.description }}</p>
+            <h5>{{ item.title }}</h5>
+            <p>{{ item.content }}</p>
           </div>
           <div class="result-list__item__img-container">
-            <img :src="item.imagesUrl[0]" />
+            <img :src="item.images[0]" />
           </div>
         </div>
       </div>
@@ -66,8 +66,11 @@ export default {
       this.focusIn();
       if (this.searchValue.length >= 2) {
         this.results = [];
-        // console.log(Object.keys(searchResponse).length);
-        this.results = await this.confessionsSearch(this.searchValue);
+        this.results = await this.confessionsSearch({
+          perPage: 4,
+          query: this.searchValue
+        });
+        console.log(this.results);
       } else this.focusOut();
     }, 500),
     ...mapActions({
