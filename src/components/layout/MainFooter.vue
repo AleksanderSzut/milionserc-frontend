@@ -42,6 +42,7 @@ export default {
 
 .main-footer {
   background-color: black;
+  z-index: 5;
   width: 100%;
   color: white;
   padding: 20px 0;

@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapMutations } from "vuex";
 import ConfessionPreview from "@/components/layout/ConfessionPreview";
 
 export default {
@@ -40,6 +40,7 @@ export default {
   },
   async created() {
     this.loading = true;
+    this.resetConfessions();
     await this.loadConfessions();
     console.log(this.getConfessions);
     this.loading = false;
@@ -60,6 +61,9 @@ export default {
     },
     ...mapActions({
       loadConfessions: "Confessions/loadConfessions"
+    }),
+    ...mapMutations({
+      resetConfessions: "Confessions/resetConfessions"
     })
   }
 };

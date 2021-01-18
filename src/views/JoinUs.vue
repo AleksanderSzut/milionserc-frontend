@@ -408,9 +408,25 @@ export default {
         }
       });
 
-      values["cartItems"] = cartItems;
+      let payload;
 
-      await this.order(values);
+      if (this.expandShippingData) {
+        payload = {
+          shippingAddress: values.shippingAddress,
+          billingAddress: values.billingAddress,
+          terms: values.terms,
+          cartItems
+        };
+      } else {
+        payload = {
+          terms: values.terms,
+          billingAddress: values.billingAddress,
+          cartItems
+        };
+      }
+
+      console.log(payload);
+      await this.order(payload);
     };
 
     return {

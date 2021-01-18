@@ -9,6 +9,7 @@
           :class="{ active: currentImg === index }"
         />
         <video-player
+          :ref="`videoPlayer_${index}`"
           class="img-slider__media"
           :url="item.url"
           v-if="item.type === `video`"
@@ -73,12 +74,18 @@ export default {
     }
   },
   methods: {
+    stopVideo() {
+      if (this.media[this.currentImg].type === "video")
+        this.$refs[`videoPlayer_${this.currentImg}`].pause();
+    },
     nextPage() {
+      this.stopVideo();
       if (this.currentImg === this.media.length - 1) this.currentImg = 0;
       else this.currentImg++;
     },
 
     previousPage() {
+      this.stopVideo();
       if (this.currentImg === 0) this.currentImg = this.media.length - 1;
       else this.currentImg--;
     }

@@ -5,7 +5,6 @@
       class="video-player__video"
       :class="{ outside: outside }"
       id="videoElement"
-      autoplay
       @canplay="updatePaused"
       @playing="updatePaused"
       @pause="updatePaused"

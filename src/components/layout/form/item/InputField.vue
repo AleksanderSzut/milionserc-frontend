@@ -6,6 +6,7 @@
       :as="as"
       :placeholder="placeholder"
       :type="type"
+      v-model="input"
     />
   </div>
 </template>
@@ -16,7 +17,16 @@ import { Field } from "vee-validate";
 export default {
   name: "InputField",
   components: { Field },
-  data: () => {},
+  data: () => {
+    return {
+      input: ""
+    };
+  },
+  methods: {
+    setValue(value) {
+      this.input = value;
+    }
+  },
   computed: {
     inputClass() {
       // let error;
