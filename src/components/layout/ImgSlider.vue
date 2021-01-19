@@ -63,12 +63,14 @@ export default {
     media() {
       let media = [];
 
-      this.imagesUrl.forEach(value => {
-        media.push({ url: value, type: "image" });
-      });
-      this.videoUrl.forEach(value => {
-        media.push({ url: value, type: "video" });
-      });
+      if (this.imagesUrl !== undefined)
+        this.imagesUrl.forEach(value => {
+          media.push({ url: value, type: "image" });
+        });
+      if (this.videoUrl !== undefined)
+        this.videoUrl.forEach(value => {
+          media.push({ url: value, type: "video" });
+        });
 
       return media;
     }
