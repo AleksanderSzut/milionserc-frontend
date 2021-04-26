@@ -1,7 +1,6 @@
 const Home = () => import(/* webpackChunkName: "Home"*/ "@/views/Home.vue");
-const HowThisWork = import(
-  /* webpackChunkName: "HowThisWork"*/ "@/views/HowThisWork.vue"
-);
+const HowThisWork = () =>
+  import(/* webpackChunkName: "HowThisWork"*/ "@/views/HowThisWork.vue");
 const Book = () => import(/* webpackChunkName: "Book"*/ "@/views/Book");
 const JoinUs = () => import(/* webpackChunkName: "JoinUs"*/ "@/views/JoinUs");
 const Confession = () =>
