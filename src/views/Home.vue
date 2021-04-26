@@ -11,7 +11,7 @@
         orientation="down"
         scale="1.25"
         delay=".5"
-        item-height="80"
+        item-height="100"
       />
     </section>
     <section class="home-section home-section--reasons">
@@ -238,6 +238,9 @@ img {
   color: white;
   font-family: "Gelasio", sans-serif;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 80px + 8px);
   &::after {
     content: "";
     width: 100%;
@@ -248,9 +251,6 @@ img {
     background: rgb(194, 136, 49);
     background: $goldenGradient;
   }
-  justify-content: center;
-  align-items: center;
-  height: 70vh;
   .parallax__container {
     filter: brightness(40%);
   }
