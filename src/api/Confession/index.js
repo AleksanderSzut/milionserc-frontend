@@ -20,7 +20,6 @@ export default {
   },
   getConfession(uuid, token) {
     const url = `${resource}/${uuid}/${token}`;
-    console.log(url);
     return ApiBase.get(url);
   },
   getConfessions(per_page = 15, offset = 0, query = "") {

@@ -425,7 +425,6 @@ export default {
         };
       }
 
-      console.log(payload);
       await this.order(payload);
     };
 
