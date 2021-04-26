@@ -91,11 +91,6 @@ import InputField from "@/components/layout/form/item/InputField";
 
 export default {
   components: { InputField },
-  methods: {
-    submit: value => {
-      console.log(value);
-    }
-  },
   props: {
     errors: {
       type: Object,

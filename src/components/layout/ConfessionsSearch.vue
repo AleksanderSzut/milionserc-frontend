@@ -70,7 +70,6 @@ export default {
           perPage: 4,
           query: this.searchValue
         });
-        console.log(this.results);
       } else this.focusOut();
     }, 500),
     ...mapActions({

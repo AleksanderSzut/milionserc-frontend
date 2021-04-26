@@ -47,7 +47,6 @@ export default {
     }
   },
   mounted() {
-    console.log("parallax");
     const item = this.$refs.parallaxitem;
     const container = this.$refs.parallaxCont;
     const height = this.itemHeight;

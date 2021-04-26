@@ -42,7 +42,6 @@ export default {
     this.loading = true;
     this.resetConfessions();
     await this.loadConfessions();
-    console.log(this.getConfessions);
     this.loading = false;
   },
   computed: {
